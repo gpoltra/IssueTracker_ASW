@@ -5,4 +5,4 @@ Batlle Ginesta, Laia
 Pérez Oltra, Guillem  
 Tro Gusta, Albert  
 
-## Link: https://still-ridge-83597.herokuapp.com/microposts
+## Link: https://still-ridge-83597.herokuapp.com
