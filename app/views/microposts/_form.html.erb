@@ -13,22 +13,22 @@
 
   <div class="input-group" style="margin-bottom: 10px">
     <%= form.label :Title %>
-    <%= form.text_field :Title %>
+    <%= form.text_field :title %>
   </div>
   
   <div class="input-group" style="margin-bottom: 10px">
     <%= form.label :Description %>
-    <%= form.text_area :Description %>
+    <%= form.text_area :description %>
   </div>
   
   <div class="input-group" style="margin-bottom: 10px">
     <%= form.label :Type %>
-    <%= form.select :Type, options_for_select([ "bug", "enhancement", "proposal", "task" ], "bug") %>
+    <%= form.select :type_issue, options_for_select([ "bug", "enhancement", "proposal", "task" ], "bug") %>
   </div>
   
   <div class="input-group" style="margin-bottom: 10px">
     <%= form.label :Priority %>
-    <%= form.select :Priority, options_for_select([ "major", "minor", "trivial", "critical", "blocker"], "major") %>
+    <%= form.select :priority, options_for_select([ "major", "minor", "trivial", "critical", "blocker"], "major") %>
   </div>
 
   <div class="actions" style="margin-bottom: 10px">
