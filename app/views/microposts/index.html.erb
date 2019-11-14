@@ -16,6 +16,9 @@
       <tr>
         <td><%= micropost.title %></td>
         <td><%= micropost.description %></td>
+        <td><%= micropost.type_issue %></td>
+        <td><%= micropost.created_at %></td>
+        <td><%= micropost.updated_at %></td>
         <td><%= link_to 'Show', micropost %></td>
         <td><%= link_to 'Edit', edit_micropost_path(micropost) %></td>
         <td><%= link_to 'Delete', micropost, method: :delete, data: { confirm: 'Are you sure?' } %></td>
