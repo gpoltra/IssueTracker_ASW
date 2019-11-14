@@ -1,15 +1,19 @@
 <p id="notice"><%= notice %></p>
 
+
+
+<% if false %>
 <p>
   <strong>User:</strong>
   <%= @micropost.user.name %>
   <strong> created an issue</strong>
   <%= @micropost.created_at %>
 </p>
+<% end %>
 
 <p>
-  <strong>Content:</strong>
-  <%= @micropost.content %>
+  <strong>Description:</strong>
+  <%= @micropost.description %>
 </p>
 
 
