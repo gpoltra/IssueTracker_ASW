@@ -1,3 +1,38 @@
 // Place all the styles related to the Microposts controller here.
 // They will automatically be included in application.css.
 // You can use Sass (SCSS) here: http://sass-lang.com/
+
+.input-group {
+    padding: 4px 0 4px 145px;
+    font-size: 14px;
+}
+
+.submit {
+    background: #0052CC;
+    font-size: 14px;
+    height: 2.5em;
+    border-color: transparent;
+    color: #FFFFFF;
+    border-radius: 3.01px;
+    box-sizing: border-box;
+    cursor: pointer;
+    margin-left: 145px;
+}
+
+.submit:hover {
+    background: #0065FF;
+}
+
+.cancel {
+    background: #FFFFFF;
+    font-size: 14px;
+    text-decoration: none;
+    color: #0052CC;
+    padding: 5px;
+}
+
+.cancel:hover {
+    background: #FFFFFF;
+    text-decoration: underline;
+    color: #0052CC;
+}
