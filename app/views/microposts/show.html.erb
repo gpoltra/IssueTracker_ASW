@@ -6,21 +6,59 @@
 <p>
   <strong>User:</strong>
   <%= @micropost.user.name %>
-  <strong> created an issue</strong>
-  <%= @micropost.created_at %>
-</p>
+<p>
 <% end %>
 
 <p>
-  <strong>User:</strong>
+  <h2><%= @micropost.title %></h2>
+</p>
+
+<p>
   <strong> created an issue</strong>
   <%= @micropost.created_at %>
 </p>
 
+
 <p>
-  <strong>Description:</strong>
   <%= @micropost.description %>
 </p>
+
+<p>
+  <strong>Attachments:</strong>
+  <%= link_to "My document", "www.google.es", target: "_blank" %>
+</p>
+
+<p>
+  <strong>Assignee</strong>
+  <%= @micropost.description %>
+</p>
+<p>
+  <strong>Type</strong>
+  <%= @micropost.type_issue %>
+</p>
+<p>
+  <strong>Priority</strong>
+  <%= @micropost.priority %>
+</p>
+
+<p>
+  <strong>Status</strong>
+  <%= @micropost.description %>
+</p>
+
+<p>
+  <strong>Votes</strong>
+  <%= @micropost.description %>
+</p>
+<p>
+  <strong>Watchers</strong>
+  <%= @micropost.description %>
+</p>
+
+<p>
+  <h3>Comments:</h3>
+</p>
+
 
 
 <%= link_to 'Edit', edit_micropost_path(@micropost) %> |
