@@ -11,28 +11,28 @@
     </div>
   <% end %>
 
-  <div class="input-group" style="margin-bottom: 20px" > 
-    Title* <%= form.text_field :Title %>
+  <div class="input-group" style="margin: 50px 0 20px 39px"> 
+    Title* <%= form.text_field :title, :class => 'title', :required => true %>
   </div>
   
-  <div class="input-group" style="margin-bottom: 20px">
-    Description <%= form.text_area :Description %>
+  <div class="input-group" style="margin-bottom: 20px" >
+    Description <%= form.text_area :description %>
   </div>
   
-  <div class="input-group" style="margin-bottom: 20px">
-    Kind* <%= form.select :Kind, options_for_select([ "bug", "enhancement", "proposal", "task" ], "bug") %>
+  <div class="input-group" style="margin: 0 0 20px 36px">
+    Kind* <%= form.select :type, options_for_select([ "bug", "enhancement", "proposal", "task" ], "bug") %>
   </div>
   
-  <div class="input-group" style="margin-bottom: 20px">
-    Priority* <%= form.select :Priority, options_for_select([ "major", "minor", "trivial", "critical", "blocker"], "major") %>
+    <div class="input-group" style="margin: 0 0 20px 18px">
+    Priority* <%= form.select :priority, options_for_select([ "major", "minor", "trivial", "critical", "blocker"], "major") %>
   </div>
   
-  <div class="actions" style="margin-bottom: 50px">
+  <div class="input" style="margin: 0 0 50px -12px">
     Attachments <input type="file" multiple="multiple">
   </div>
 
 
-  <div class="actions" style="margin-left: 500px">
+  <div class="actions" style="margin-left: 1150px">
     <%= form.submit :"Create Issue", :class => 'submit'%>
     <%= link_to 'Cancel', microposts_path, :class => 'cancel' %>
   </div>
