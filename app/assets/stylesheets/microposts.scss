@@ -1,3 +1,79 @@
 // Place all the styles related to the Microposts controller here.
 // They will automatically be included in application.css.
 // You can use Sass (SCSS) here: http://sass-lang.com/
+
+textarea {
+    vertical-align: top;
+    padding: 4px 5px;
+    border-radius: 3px;
+    box-sizing: border-box;
+    max-width: 800px;
+    width: 100%;
+    background: #FFFFFF;
+    height: 192px;
+    font-family: Arial,sans-serif;
+}
+
+.title {
+    border-radius: 3px;
+    box-sizing: border-box;
+    max-width: 800px;
+    width: 100%;
+    background: #f5f5f5;
+    height: 30px;
+    font-size: 14px;
+    line-height: 1.42857143;
+    font-family: Arial,sans-serif;
+}
+
+.input-group {
+    padding: 4px 0 6px 145px;
+    font-size: 14px;
+    font-family: Arial,sans-serif;
+}
+
+.input {
+    padding: 4px 0 6px 145px;
+    font-size: 14px;
+    font-family: Arial,sans-serif;
+}
+
+.submit {
+    background: #0052CC;
+    font-size: 14px;
+    height: 2.5em;
+    border-color: transparent;
+    color: #FFFFFF;
+    border-radius: 3.01px;
+    box-sizing: border-box;
+    cursor: pointer;
+    margin-left: 145px;
+    font-family: Arial,sans-serif;
+}
+
+.submit:hover {
+    background: #0065FF;
+}
+
+.cancel {
+    background: #FFFFFF;
+    font-size: 14px;
+    text-decoration: none;
+    color: #0052CC;
+    padding: 5px;
+    font-family: Arial,sans-serif;
+}
+
+.cancel:hover {
+    background: #FFFFFF;
+    text-decoration: underline;
+    color: #0052CC;
+}
+
+select {
+    box-sizing: border-box;
+    background: #f5f5f5;
+    border-radius: 3px;
+    cursor: pointer;
+    height: 30px;
+}
