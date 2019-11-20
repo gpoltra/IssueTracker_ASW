@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_11_20_133505) do
+ActiveRecord::Schema.define(version: 2019_11_20_175955) do
 
   create_table "comments", force: :cascade do |t|
     t.string "commenter"
@@ -45,17 +45,21 @@ ActiveRecord::Schema.define(version: 2019_11_20_133505) do
 
   create_table "votes", force: :cascade do |t|
     t.integer "user_id"
-    t.integer "issue_id"
-    t.datetime "created_at", precision: 6, null: false
-    t.datetime "updated_at", precision: 6, null: false
+    t.integer "micropost_id"
+    t.index ["micropost_id"], name: "index_votes_on_micropost_id"
+    t.index ["user_id"], name: "index_votes_on_user_id"
   end
 
   create_table "watchers", force: :cascade do |t|
     t.integer "user_id"
-    t.integer "issue_id"
-    t.datetime "created_at", precision: 6, null: false
-    t.datetime "updated_at", precision: 6, null: false
+    t.integer "micropost_id"
+    t.index ["micropost_id"], name: "index_watchers_on_micropost_id"
+    t.index ["user_id"], name: "index_watchers_on_user_id"
   end
 
   add_foreign_key "comments", "microposts"
+  add_foreign_key "votes", "microposts"
+  add_foreign_key "votes", "users"
+  add_foreign_key "watchers", "microposts"
+  add_foreign_key "watchers", "users"
 end

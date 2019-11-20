@@ -50,6 +50,25 @@ class MicropostsController < ApplicationController
       end
     end
   end
+  
+  def vote
+    respond_to do |format|
+      @issue_to_vote = Micropost.find(params[:id])
+      if !Vote.exists?(:micropost_id => @issue_to_vote.id, :user_id => 1)
+        @vote = Vote.new
+        @vote.user_id = 1
+        @vote.micropost_id = @issue_to_vote.id
+        @vote.save
+        @issue_to_vote.increment!(:votes)
+      else
+        @vote = Vote.where(micropost_id: params[:id], user_id: 1).take
+        @vote.destroy
+        @issue_to_vote.decrement!(:votes)
+      end
+      format.html { redirect_to @issue_to_vote }
+      format.json { render json: @issue_to_vote, status: :ok }
+    end
+  end
 
   # DELETE /microposts/1
   # DELETE /microposts/1.json
