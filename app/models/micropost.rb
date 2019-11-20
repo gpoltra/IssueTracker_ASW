@@ -1,5 +1,22 @@
 class Micropost < ApplicationRecord
-  #belongs_to :user
-  validates :description, length: { maximum: 240 }
-  #validates :user_id, presence: true
+  
+  belongs_to :assignee, class_name: 'User', foreign_key: :assignee_id, optional: true
+  has_many :comments, dependent: :destroy
+  has_many :Votes, dependent: :destroy
+  has_many :Watchers, dependent: :destroy
+
+  
+  def self.status
+    ["New", "Open", "On hold", "Resolved", "Duplicate", "Invalid", "Won't fix", "Closed"]
+  end
+  def self.type
+      ["Bug", "Enhancement", "Proposal", "Task"]
+  end
+  def self.priority
+      ["Trivial", "Minor", "Major", "Critical", "Blocker"]
+  end
+    #validates :user_id, presence: true
+    
+  
+  default_scope { order(created_at: :desc) }
 end

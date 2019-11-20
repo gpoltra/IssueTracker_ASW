@@ -6,8 +6,13 @@
 <p>
   <strong>User:</strong>
   <%= @micropost.user.name %>
+  
 <p>
 <% end %>
+
+<p>
+      Issue #<%= @micropost.id %>
+</p>
 
 <p>
   <h2><%= @micropost.title %></h2>
@@ -15,13 +20,15 @@
 
 <p>
   <strong> created an issue</strong>
-  <%= @micropost.created_at %>
+  <time><%= @micropost.created_at.strftime('%Y-%m-%d')%></time>
 </p>
 
 
-<p>
-  <%= @micropost.description %>
-</p>
+<% if !(@micropost.description == "") %>
+  <p class="description"><%= @micropost.description %></p>
+<% else %>
+  <p class="no-description">No description provided.</p>
+<% end %>
 
 <p>
   <strong>Attachments:</strong>
@@ -30,8 +37,13 @@
 
 <p>
   <strong>Assignee</strong>
-  <%= @micropost.description %>
+  <% if !@micropost.assignee.nil? %>
+  
+  <% else %>
+    -
+  <% end %>
 </p>
+  
 <p>
   <strong>Type</strong>
   <%= @micropost.type_issue %>
@@ -43,23 +55,67 @@
 
 <p>
   <strong>Status</strong>
-  <%= @micropost.description %>
+  <%= @micropost.status %>
 </p>
 
 <p>
   <strong>Votes</strong>
-  <%= @micropost.description %>
+  <%= @micropost.votes %>
+  
+    <%= link_to 'Vote for this issue', vote_url(id: @micropost.id), method: :post, class:"vote" %>
+
 </p>
 <p>
   <strong>Watchers</strong>
-  <%= @micropost.description %>
+  <%= @micropost.watchers %>
+  
+  <%= link_to 'Watch this issue', watch_url(id: @micropost.id, view: "micropost"), method: :post, class: "vote" %>
 </p>
-
-<p>
-  <h3>Comments:</h3>
-</p>
-
 
 
 <%= link_to 'Edit', edit_micropost_path(@micropost) %> |
 <%= link_to 'Back', microposts_path %>
+
+<p>
+  <% if 1 %>
+    <% if @micropost.status == "Open" || @micropost.status == "New" %>
+        <%= link_to 'Resolve', update_status_url(id: @micropost.id, status: "Resolved"), method: :put %>
+    <% else %>
+        <%= link_to 'Open', update_status_url(id: @micropost.id, status: "Open"), method: :put, class:'open'%>
+    <% end %>
+    <strong>Change Workflow:</strong>
+    <ul>
+      <% Micropost.status.each do |status| %>
+        <% if status != @micropost.status %>
+          <%= content_tag(:li, link_to(status, update_status_url(id: @micropost.id, status: status), method: :put)) %>
+        <% end %>
+      <% end %>
+    </ul>
+  <% end %>
+</p>
+
+<div class="issue_comments">
+  <h3>Comments (<%= @micropost.comments.count %>)</h3>
+  <p>
+<% @micropost.comments.each do |comment| %>
+  <!--Reporter %=comment.user.name %>-->
+
+   
+  <p>
+  <%= comment.body %>
+  </p>
+  <%= time_ago_in_words(comment.created_at) + " ago" %>
+  <!--% if comment.user.id == current_user.id %>-->
+  <!--Link to edit-->
+  <!--Link to delete-->
+  <%= link_to 'Delete', [comment.issue, comment],
+               method: :delete,
+               data: { confirm: 'Are you sure?' } %>
+  
+  <% end %>
+
+  <%= render 'comment_form', micropost: @micropost %>
+</div>
+
+
+

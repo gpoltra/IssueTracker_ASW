@@ -4,12 +4,28 @@ class UsersController < ApplicationController
   # GET /users
   # GET /users.json
   def index
-    @users = User.all
+    respond_to do |format|
+      @users = User.all
+      format.html
+      format.json {render json: @users, status: :ok, each_serializer: UserindexSerializer}
+    end
   end
 
   # GET /users/1
   # GET /users/1.json
   def show
+    respond_to do |format|
+      format.html
+      format.json {render json: @user, status: :ok, serializer: UserSerializer}
+    end
+  end
+  
+  def the_current_user
+    respond_to do |format|
+      @user = current_user
+      format.html
+      format.json {render json: @user, status: :ok, serializer: UserSerializer}
+    end
   end
 
   # GET /users/new
@@ -28,13 +44,13 @@ class UsersController < ApplicationController
 
     respond_to do |format|
       if @user.save
-        format.html { redirect_to @user, notice: 'User was successfully created.' }
-        format.json { render :show, status: :created, location: @user }
+      format.html { redirect_to microposts_path(@micropost), notice: 'User was successfully created.' }
+      format.json { render :show, status: :created, location: @user }
       else
-        format.html { render :new }
-        format.json { render json: @user.errors, status: :unprocessable_entity }
+      format.html { render :new }
+      format.json { render json: @user.errors, status: :unprocessable_entity }
       end
-    end
+  end
   end
 
   # PATCH/PUT /users/1
@@ -60,6 +76,15 @@ class UsersController < ApplicationController
       format.json { head :no_content }
     end
   end
+  
+  def the_current_user
+    respond_to do |format|
+      @user = current_user
+      format.html
+      format.json {render json: @user, status: :ok, serializer: UserSerializer}
+    end
+  end
+
 
   private
     # Use callbacks to share common setup or constraints between actions.
@@ -69,6 +94,6 @@ class UsersController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def user_params
-      params.require(:user).permit(:name, :email)
+      params.require(:user).permit(:name, :email, :password, :encrypted_password, :salt, :password_confirmation)
     end
 end

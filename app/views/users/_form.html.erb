@@ -12,16 +12,28 @@
   <% end %>
 
   <div class="field">
-    <%= form.label :name %>
-    <%= form.text_field :name %>
+    <%= form.label :username %>
+    <%= form.text_field :username %>
   </div>
 
   <div class="field">
     <%= form.label :email %>
     <%= form.text_field :email %>
   </div>
+  
+  <div class="password_field">
+    <%= form.label :password %>
+    <%= form.password_field :password %>
+  </div>
+  
+  <div class="password_field">
+    <%= form.label :password_confirmation %>
+    <%= form.password_field :password_confirmation %>
+  </div>
 
   <div class="actions">
     <%= form.submit %>
+    <%= link_to "Login/Signup amb Google", login_path %>
+    <%= link_to "Login", "session_path(@session)" %> 
   </div>
 <% end %>
