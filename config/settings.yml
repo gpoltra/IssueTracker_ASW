@@ -1,0 +1,6 @@
+default: &default
+  project_id: my-project
+  gcs_bucket: my-bucket
+  oauth2:
+    client_id: 1090313193941-eatabovkihgiamrvvmb3neaidt3nhdu2.apps.googleusercontent.com
+    client_secret: dPiLN51oJEOMOZg-EHh5OmQ7
