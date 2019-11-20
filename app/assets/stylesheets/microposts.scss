@@ -38,6 +38,35 @@ textarea {
     font-family: Arial,sans-serif;
 }
 
+.reporter {
+    padding: 4px 0 6px 145px;
+    font-size: 14px;
+    font-family: Arial,sans-serif;
+}
+
+.text {
+    border: none;
+    border-color: transparent;
+    font-size: 14px;
+    font-family: Arial,sans-serif;
+}
+
+.save {
+    background: #0052CC;
+    font-size: 14px;
+    height: 2.5em;
+    border-color: transparent;
+    color: #FFFFFF;
+    border-radius: 3.01px;
+    box-sizing: border-box;
+    cursor: pointer;
+    font-family: Arial,sans-serif;
+}
+
+.save:hover {
+    background: #0065FF;
+}
+
 .submit {
     background: #0052CC;
     font-size: 14px;
