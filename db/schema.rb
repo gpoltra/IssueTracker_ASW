@@ -10,21 +10,16 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_11_19_191313) do
+ActiveRecord::Schema.define(version: 2019_10_30_145147) do
 
   create_table "microposts", force: :cascade do |t|
-    t.text "content"
+    t.text "title"
+    t.text "description"
     t.integer "user_id"
+    t.text "type"
+    t.text "priority"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
-    t.string "title"
-    t.string "description"
-    t.string "priority"
-    t.string "type_issue"
-    t.string "status"
-    t.integer "votes"
-    t.integer "watchers"
-    t.integer "assignee_id"
   end
 
   create_table "users", force: :cascade do |t|
@@ -34,24 +29,6 @@ ActiveRecord::Schema.define(version: 2019_11_19_191313) do
     t.string "salt"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
-  end
-
-  create_table "votes", force: :cascade do |t|
-    t.integer "user_id"
-    t.integer "issue_id"
-    t.datetime "created_at", precision: 6, null: false
-    t.datetime "updated_at", precision: 6, null: false
-    t.index ["issue_id"], name: "index_votes_on_issue_id"
-    t.index ["user_id"], name: "index_votes_on_user_id"
-  end
-
-  create_table "watchers", force: :cascade do |t|
-    t.integer "user_id"
-    t.integer "issue_id"
-    t.datetime "created_at", precision: 6, null: false
-    t.datetime "updated_at", precision: 6, null: false
-    t.index ["issue_id"], name: "index_watchers_on_issue_id"
-    t.index ["user_id"], name: "index_watchers_on_user_id"
   end
 
 end

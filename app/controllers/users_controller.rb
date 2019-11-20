@@ -24,17 +24,16 @@ class UsersController < ApplicationController
   # POST /users
   # POST /users.json
   def create
-    @user = User.new(params[:user])
+    @user = User.new(user_params)
 
     respond_to do |format|
       if @user.save
-      flash[:notice] = "You signed up successfully"
-      flash[:color]= "valid"
+      format.html { redirect_to show_microposts_path(@micropost), notice: 'User was successfully created.' }
+      format.json { render :show, status: :created, location: @user }
       else
-      flash[:notice] = "Form is invalid"
-      flash[:color]= "invalid"
+      format.html { render :new }
+      format.json { render json: @user.errors, status: :unprocessable_entity }
       end
-    render "new"
   end
   end
 
@@ -70,6 +69,6 @@ class UsersController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def user_params
-      params.require(:user).permit(:name, :email)
+      params.require(:user).permit(:name, :email, :password, :encrypted_password, :salt, :password_confirmation)
     end
 end

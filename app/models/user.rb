@@ -1,17 +1,16 @@
 class User < ApplicationRecord
   has_many :microposts
-  attr_accessor :password
-  attr_accessible :username, :email, :password, :password_confirmation
-  EMAIL_REGEX = /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i
-  validates :username, :presence => true, :uniqueness => true, :length => { :in => 3..20 }
-  validates :email, :presence => true, :uniqueness => true, :format => EMAIL_REGEX
-  validates :password, :confirmation => true #password_confirmation attr
+  attr_accessor :password, :password_confirmation
+  validates :name, :presence => true, :uniqueness => true, :length => { :in => 3..20 }
+  EMAIL_REGEX = /\A[\w+\-.]+@[a-z\d\-.]+\.[a-z]+\z/i
+  validates :email, presence: true, :uniqueness => true, format: { with: EMAIL_REGEX }
+  validates :password, :confirmation => true 
   validates_length_of :password, :in => 6..20, :on => :create
   before_save :encrypt_password
   after_save :clear_password
   def encrypt_password
     if password.present?
-      elf.salt = BCrypt::Engine.generate_salt
+      self.salt = BCrypt::Engine.generate_salt
       self.encrypted_password= BCrypt::Engine.hash_secret(password, salt)
     end
   end
