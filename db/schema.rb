@@ -10,7 +10,16 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_11_20_110619) do
+ActiveRecord::Schema.define(version: 2019_11_20_133505) do
+
+  create_table "comments", force: :cascade do |t|
+    t.string "commenter"
+    t.text "body"
+    t.integer "micropost_id", null: false
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["micropost_id"], name: "index_comments_on_micropost_id"
+  end
 
   create_table "microposts", force: :cascade do |t|
     t.text "content"
@@ -21,10 +30,10 @@ ActiveRecord::Schema.define(version: 2019_11_20_110619) do
     t.string "description"
     t.string "priority"
     t.string "type_issue"
-    t.string "status"
     t.integer "assignee_id"
     t.integer "votes", default: 0, null: false
     t.integer "watchers", default: 0, null: false
+    t.string "status", default: "New"
   end
 
   create_table "users", force: :cascade do |t|
@@ -47,15 +56,6 @@ ActiveRecord::Schema.define(version: 2019_11_20_110619) do
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
   end
-  
-  create_table "comments", force: :cascade do |t|
-    t.integer "user_id"
-    t.text "body"
-    t.integer "issue_id"
-    t.datetime "created_at", precision: 6, null: false
-    t.datetime "updated_at", precision: 6, null: false
-    t.index ["issue_id"], name: "index_comments_on_issue_id"
-    t.index ["user_id"], name: "index_comments_on_user_id"
-  end
 
+  add_foreign_key "comments", "microposts"
 end
