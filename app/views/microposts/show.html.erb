@@ -10,6 +10,10 @@
 <% end %>
 
 <p>
+      Issue #<%= @micropost.id %>
+</p>
+
+<p>
   <h2><%= @micropost.title %></h2>
 </p>
 
@@ -19,9 +23,11 @@
 </p>
 
 
-<p>
-  <%= @micropost.description %>
-</p>
+<% if !(@micropost.description == "") %>
+  <p class="description"><%= @micropost.description %></p>
+<% else %>
+  <p class="no-description">No description provided.</p>
+<% end %>
 
 <p>
   <strong>Attachments:</strong>
@@ -29,9 +35,14 @@
 </p>
 
 <p>
-  <strong>Assignee</strong>
-  <%= @micropost.description %>
+  <strong>Assignee:</strong>
+  <% if !@micropost.assignee.nil? %>
+  
+  <% else %>
+    No one assigned
+  <% end %>
 </p>
+  
 <p>
   <strong>Type</strong>
   <%= @micropost.type_issue %>
@@ -43,23 +54,39 @@
 
 <p>
   <strong>Status</strong>
-  <%= @micropost.description %>
+  <%= @micropost.status %>
 </p>
 
 <p>
   <strong>Votes</strong>
-  <%= @micropost.description %>
+  <%= @micropost.votes %>
 </p>
 <p>
   <strong>Watchers</strong>
-  <%= @micropost.description %>
+  <%= @micropost.watchers %>
 </p>
-
-<p>
-  <h3>Comments:</h3>
-</p>
-
 
 
 <%= link_to 'Edit', edit_micropost_path(@micropost) %> |
 <%= link_to 'Back', microposts_path %>
+
+
+<p>
+  <h3>Comments (<%= @micropost.comments.count %>)</h3>
+</p>
+<% @micropost.comments.each do |comment| %>
+  <!--Reporter-->
+ 
+  <%= comment.body %>
+  <p></p>
+  <%= time_ago_in_words(comment.created_at) + " ago" %>
+
+  <!--Link to edit-->
+  <!--Link to delete-->
+<% end %>
+
+<%= render 'comment_form', micropost: @micropost %>
+
+
+
+

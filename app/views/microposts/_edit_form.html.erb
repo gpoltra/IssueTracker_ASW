@@ -1,0 +1,48 @@
+<%= form_with(model: micropost, local: true) do |form| %>
+  <% if micropost.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(micropost.errors.count, "error") %> prohibited this micropost from being saved:</h2>
+
+      <ul>
+        <% micropost.errors.full_messages.each do |message| %>
+          <li><%= message %></li>
+        <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="input-group" style="margin: 40px 0 20px 39px"> 
+    Title* <%= form.text_field :title, :class => 'title', :required => true %>
+  </div>
+
+  <div class="input-group" style="margin-bottom: 20px" >
+    Description <%= form.text_area :description %>
+  </div>
+  
+  <div class="reporter" style="margin: 0 0 20px 15px">
+    Reporter <%= form.text_field :assignee, :class => 'text' %>
+  </div>
+  
+  <div class="input-group" style="margin: 0 0 20px 36px">
+    Kind* <%= form.select :type, options_for_select([ "bug", "enhancement", "proposal", "task" ], "bug") %>
+  </div>
+  
+    <div class="input-group" style="margin: 0 0 20px 18px">
+    Priority* <%= form.select :priority, options_for_select([ "major", "minor", "trivial", "critical", "blocker"], "major") %>
+  </div>
+  
+  <div class="input" style="margin: 0 0 20px -12px">
+    Attachments <input type="file" multiple="multiple">
+  </div>
+  
+  <div class="input-group" style="margin-bottom: 50px" >
+    Comment <%= form.text_area :comment %>
+  </div>
+
+
+  <div class="actions" style="margin-left: 1150px">
+    <%= form.submit :"Update Issue", :class => 'submit'%>
+    <%= link_to 'Cancel', microposts_path, :class => 'cancel' %>
+  </div>
+  
+<% end %>

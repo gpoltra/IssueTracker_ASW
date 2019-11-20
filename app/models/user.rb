@@ -1,5 +1,7 @@
 class User < ApplicationRecord
   has_many :microposts
+  has_many :comments
+
   attr_accessor :password, :password_confirmation
   validates :name, :presence => true, :uniqueness => true, :length => { :in => 3..20 }
   EMAIL_REGEX = /\A[\w+\-.]+@[a-z\d\-.]+\.[a-z]+\z/i
