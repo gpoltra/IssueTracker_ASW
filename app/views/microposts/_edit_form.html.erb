@@ -20,7 +20,7 @@
   </div>
   
   <div class="reporter" style="margin: 0 0 20px 15px">
-    Reporter <%= form.text_field :assignee, :class => 'text' %>
+    Reporter <%= form.collection_select :asignee_id, User.all, :id, :name, {:include_blank => 'No assigned user'} %>
   </div>
   
   <div class="input-group" style="margin: 0 0 20px 36px">

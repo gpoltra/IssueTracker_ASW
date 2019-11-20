@@ -14,12 +14,13 @@
 ActiveRecord::Schema.define(version: 2019_10_30_145147) do
 
   create_table "comments", force: :cascade do |t|
-    t.string "commenter"
     t.text "body"
-    t.integer "micropost_id", null: false
+    t.integer "user_id", null: false
+    t.integer "issue_id", null: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
-    t.index ["micropost_id"], name: "index_comments_on_micropost_id"
+    t.index ["issue_id"], name: "index_comments_on_issue_id"
+    t.index ["user_id"], name: "index_comments_on_user_id"
   end
 
 
@@ -67,4 +68,5 @@ ActiveRecord::Schema.define(version: 2019_10_30_145147) do
   end
 
   add_foreign_key "comments", "microposts"
+  add_foreign_key "comments", "users"
 end
