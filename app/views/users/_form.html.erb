@@ -21,17 +21,19 @@
     <%= form.text_field :email %>
   </div>
   
-  <div class="field">
+  <div class="password_field">
     <%= form.label :password %>
-    <%= form.text_field :password %>
+    <%= form.password_field :password %>
   </div>
   
-  <div class="field">
+  <div class="password_field">
     <%= form.label :password_confirmation %>
-    <%= form.text_field :password_confirmation %>
+    <%= form.password_field :password_confirmation %>
   </div>
 
   <div class="actions">
     <%= form.submit %>
+    <%= link_to "Login/Signup amb Google", login_path %>
+    <%= link_to "Login", "session_path(@session)" %> 
   </div>
 <% end %>

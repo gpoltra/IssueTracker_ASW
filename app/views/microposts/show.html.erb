@@ -6,6 +6,7 @@
 <p>
   <strong>User:</strong>
   <%= @micropost.user.name %>
+  
 <p>
 <% end %>
 
@@ -19,7 +20,7 @@
 
 <p>
   <strong> created an issue</strong>
-  <%= @micropost.created_at %>
+  <time><%= @micropost.created_at.strftime('%Y-%m-%d')%></time>
 </p>
 
 
@@ -35,11 +36,11 @@
 </p>
 
 <p>
-  <strong>Assignee:</strong>
+  <strong>Assignee</strong>
   <% if !@micropost.assignee.nil? %>
   
   <% else %>
-    No one assigned
+    -
   <% end %>
 </p>
   
@@ -60,16 +61,38 @@
 <p>
   <strong>Votes</strong>
   <%= @micropost.votes %>
+  
+    <%= link_to 'Vote for this issue', vote_url(id: @micropost.id), method: :post, class:"vote" %>
+
 </p>
 <p>
   <strong>Watchers</strong>
   <%= @micropost.watchers %>
+  
+  <%= link_to 'Watch this issue', watch_url(id: @micropost.id, view: "micropost"), method: :post, class: "vote" %>
 </p>
 
 
 <%= link_to 'Edit', edit_micropost_path(@micropost) %> |
 <%= link_to 'Back', microposts_path %>
 
+<p>
+  <% if 1 %>
+    <% if @micropost.status == "Open" || @micropost.status == "New" %>
+        <%= link_to 'Resolve', update_status_url(id: @micropost.id, status: "Resolved"), method: :put %>
+    <% else %>
+        <%= link_to 'Open', update_status_url(id: @micropost.id, status: "Open"), method: :put, class:'open'%>
+    <% end %>
+    <strong>Change Workflow:</strong>
+    <ul>
+      <% Micropost.status.each do |status| %>
+        <% if status != @micropost.status %>
+          <%= content_tag(:li, link_to(status, update_status_url(id: @micropost.id, status: status), method: :put)) %>
+        <% end %>
+      <% end %>
+    </ul>
+  <% end %>
+</p>
 
 <div class="issue_comments">
   <h3>Comments (<%= @micropost.comments.count %>)</h3>
