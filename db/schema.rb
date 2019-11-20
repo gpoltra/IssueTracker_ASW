@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_11_19_191313) do
+ActiveRecord::Schema.define(version: 2019_11_20_110619) do
 
   create_table "microposts", force: :cascade do |t|
     t.text "content"
@@ -22,9 +22,9 @@ ActiveRecord::Schema.define(version: 2019_11_19_191313) do
     t.string "priority"
     t.string "type_issue"
     t.string "status"
-    t.integer "votes"
-    t.integer "watchers"
     t.integer "assignee_id"
+    t.integer "votes", default: 0, null: false
+    t.integer "watchers", default: 0, null: false
   end
 
   create_table "users", force: :cascade do |t|
@@ -39,8 +39,6 @@ ActiveRecord::Schema.define(version: 2019_11_19_191313) do
     t.integer "issue_id"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
-    t.index ["issue_id"], name: "index_votes_on_issue_id"
-    t.index ["user_id"], name: "index_votes_on_user_id"
   end
 
   create_table "watchers", force: :cascade do |t|
@@ -48,8 +46,6 @@ ActiveRecord::Schema.define(version: 2019_11_19_191313) do
     t.integer "issue_id"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
-    t.index ["issue_id"], name: "index_watchers_on_issue_id"
-    t.index ["user_id"], name: "index_watchers_on_user_id"
   end
 
 end

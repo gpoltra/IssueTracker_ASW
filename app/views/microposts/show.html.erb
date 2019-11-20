@@ -10,6 +10,10 @@
 <% end %>
 
 <p>
+      Issue #<%= @micropost.id %>
+</p>
+
+<p>
   <h2><%= @micropost.title %></h2>
 </p>
 
@@ -19,9 +23,11 @@
 </p>
 
 
-<p>
-  <%= @micropost.description %>
-</p>
+<% if !(@micropost.description == "") %>
+  <p class="description"><%= @micropost.description %></p>
+<% else %>
+  <p class="no-description">No description provided.</p>
+<% end %>
 
 <p>
   <strong>Attachments:</strong>
@@ -29,9 +35,14 @@
 </p>
 
 <p>
-  <strong>Assignee</strong>
-  <%= @micropost.description %>
+  <strong>Assignee:</strong>
+  <% if !@micropost.assignee.nil? %>
+  
+  <% else %>
+    No one assigned
+  <% end %>
 </p>
+  
 <p>
   <strong>Type</strong>
   <%= @micropost.type_issue %>
@@ -43,16 +54,16 @@
 
 <p>
   <strong>Status</strong>
-  <%= @micropost.description %>
+  <%= @micropost.status %>
 </p>
 
 <p>
   <strong>Votes</strong>
-  <%= @micropost.description %>
+  <%= @micropost.votes %>
 </p>
 <p>
   <strong>Watchers</strong>
-  <%= @micropost.description %>
+  <%= @micropost.watchers %>
 </p>
 
 <p>
