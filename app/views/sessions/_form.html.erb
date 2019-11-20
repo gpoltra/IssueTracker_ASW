@@ -1,0 +1,28 @@
+<%= form_with(model: session, local: true) do |form| %>
+  <% if session.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(session.errors.count, "error") %> prohibited this session from being saved:</h2>
+
+      <ul>
+        <% session.errors.full_messages.each do |message| %>
+          <li><%= message %></li>
+        <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="field">
+    <%= form.label :email %>
+    <%= form.text_field :email %>
+  </div>
+  
+  <div class="password_field">
+    <%= form.label :password %>
+    <%= form.password_field :password %>
+  </div>
+  
+  <div class="actions">
+    <%= form.submit %>
+    <%= link_to "Login/Signup amb Google", login_path %>
+  </div>
+<% end %>

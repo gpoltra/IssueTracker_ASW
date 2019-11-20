@@ -26,11 +26,6 @@ ActiveRecord::Schema.define(version: 2019_11_20_175955) do
     t.integer "user_id"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
-    t.string "title"
-    t.string "description"
-    t.string "priority"
-    t.string "type_issue"
-    t.integer "assignee_id"
     t.integer "votes", default: 0, null: false
     t.integer "watchers", default: 0, null: false
     t.string "status", default: "New"
