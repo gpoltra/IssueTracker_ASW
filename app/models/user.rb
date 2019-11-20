@@ -8,7 +8,7 @@ class User < ApplicationRecord
   validates :email, presence: true, :uniqueness => true, format: { with: EMAIL_REGEX }
   validates :password, :confirmation => true 
   validates_length_of :password, :in => 6..20, :on => :create
-  before_save :encrypt_password
+  #before_save :encrypt_password
   after_save :clear_password
   def encrypt_password
     if password.present?
