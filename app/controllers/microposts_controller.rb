@@ -5,6 +5,42 @@ class MicropostsController < ApplicationController
   # GET /microposts.json
   def index
     @microposts = Micropost.all
+    
+    if params.has_key?(:assignee)
+        if User.exists?(id: params[:assignee])
+          @microposts = @microposts.where(assignee_id: params[:assignee])
+        else
+          format.json {render json: {"error":"User with id="+params[:assignee]+" does not exist"}, status: :unprocessable_entity}
+        end
+    end
+    
+    if params.has_key?(:type)
+        @microposts = @microposts.where(Type: params[:type])
+    end
+    
+    if params.has_key?(:priority)
+        @microposts = @microposts.where(Priority: params[:priority])
+    end
+    
+    if params.has_key?(:status)
+        if params[:status] == "New&Open"
+          @microposts = @microposts.where(Status: ["Open","New"])
+        else
+          @microposts = @microposts.where(Status: params[:status])
+        end
+    end
+    
+    if params.has_key?(:watcher)
+        if User.exists?(id: params[:watcher])
+          @microposts = Micropost.joins(:watchers).where(watchers:{user_id: params[:watcher]})
+        else
+          format.json {render json: {"error":"User with id="+params[:watcher]+" does not exist"}, status: :unprocessable_entity}
+        end
+    end
+    
+    #format.html
+    #format.json {render json: @microposts, status: :ok, each_serializer: MicropostIndexSerializer}
+    
   end
 
   # GET /microposts/1

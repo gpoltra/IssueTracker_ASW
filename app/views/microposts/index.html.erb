@@ -23,15 +23,22 @@
 <body>
   <p id="notice"><%= notice %></p>
   
-  <div class="header">
-    <div class="section-title">
-      <h1>Issues</h1>
+  <div style="position: relative;" class="header">
+    <h1>Issues</h1>
+    <div style="position: absolute; top: 0; right: 0;">
+      <%= link_to 'Create issue', new_micropost_path %>
+       <input type="text" id="myInput" onkeyup="search()" placeholder="Find issues">
     </div>
-    
-</div>
-  <%= link_to 'Create issue', new_micropost_path %>
-  <input type="text" id="myInput" onkeyup="search()" placeholder="Find issues">
+  </div>
   
+  <div style = "display: inline; position: relative;">
+    <a>Filter by: </a>
+    <a href="/microposts">All</a>
+    <a><%= link_to "Open", microposts_url(status: "Open")%></a>
+    <a href="/microposts">My issues</a>
+     <a href="/microposts">Watching</a>
+  </div>
+
   <table id = "myTable">
     <col width="48%">
     <col width="5%">
@@ -59,14 +66,19 @@
     <tbody>
       <% @microposts.each do |micropost| %>
         <tr>
-          <td><%= link_to micropost.title, micropost %></td>
-          <td><%= link_to micropost.type_issue, microposts_url(type_issue: micropost.type_issue), class:"btn-link" %></td>
-          <td onclick="filterPriority"><%= link_to micropost.priority, class:"btn-link" %></td>
-          <td><%= "Status" %></td>
-          <td><%= "Votes" %></td>
-          <td><%= "Asignee" %></td>
+          <td><%= link_to micropost.title, micropost, class:"btn-link" %></td>
+          <td><%= link_to micropost.type_issue , microposts_url(type: micropost.type_issue), class:"btn-link" %></td>
+          <td><%= link_to micropost.priority , microposts_url(priority: micropost.priority), class:"btn-link" %></td>
+          <td><%= link_to micropost.status, microposts_url(status: micropost.status), class:"btn-link" %></td>
+          <td><%= micropost.votes %></td>
+          <% if !micropost.assignee.nil? %>
+            <td><%= link_to micropost.assignee.name, microposts_url(assignee: micropost.assignee.id), class:"btn-link" %></td>
+          <% else %>
+            <td></td>
+          <% end %>
           <td><%= time_ago_in_words(micropost.created_at) + " ago" %></td>
           <td><%= time_ago_in_words(micropost.updated_at) + " ago" %></td>
+          
           <% if false %>
             <td><%= link_to 'Show', micropost %></td>
             <td><%= link_to 'Edit', edit_micropost_path(micropost) %></td>
@@ -77,7 +89,7 @@
     </tbody>
   </table>
   
-  <script>
+  <script type='text/javascript'>
     function search() {
       var input, filter, table, tr, td, i, txtValue;
       input = document.getElementById("myInput");
@@ -111,6 +123,25 @@
             tr[i].style.display = "none";
           }
         }       
+      }
+    }
+    
+    function filterType(text) {
+      var table, tr, td, i, txtValue, toFilter;
+      table = document.getElementById("myTable");
+      tr = table.getElementsByTagName("tr");
+      toFilter = "bug";
+      for (i = 0; i < tr.length; i++) {
+        td = tr[i].getElementsByTagName("td")[1];
+        if (td) {
+          txtValue = td.textContent;
+          if (txtValue == toFilter) {
+            tr[i].style.display = "";
+          }
+          else {
+            tr[i].style.display = "none";
+          }
+        }
       }
     }
   </script>
