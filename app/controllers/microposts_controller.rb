@@ -46,6 +46,10 @@ class MicropostsController < ApplicationController
   # GET /microposts/1
   # GET /microposts/1.json
   def show
+    respond_to do |format|
+      format.html
+      format.json {render json: @issue, status: :ok, serializer: IssueSerializer}
+    end
   end
 
   # GET /microposts/new
