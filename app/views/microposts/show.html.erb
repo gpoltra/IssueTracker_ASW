@@ -20,7 +20,7 @@
 
 <p>
   <strong> created an issue</strong>
-  <%= @micropost.created_at %>
+  <time><%= @micropost.created_at.strftime('%Y-%m-%d')%></time>
 </p>
 
 
@@ -75,6 +75,7 @@
 
 <%= link_to 'Edit', edit_micropost_path(@micropost) %> |
 <%= link_to 'Back', microposts_path %>
+
 <p>
   <% if 1 %>
     <% if @micropost.status == "Open" || @micropost.status == "New" %>
@@ -92,7 +93,6 @@
     </ul>
   <% end %>
 </p>
-
 
 <p>
   <h3>Comments (<%= @micropost.comments.count %>)</h3>
