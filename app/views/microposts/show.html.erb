@@ -55,11 +55,27 @@
   <%= @micropost.description %>
 </p>
 
-<p>
-  <h3>Comments:</h3>
-</p>
-
-
 
 <%= link_to 'Edit', edit_micropost_path(@micropost) %> |
 <%= link_to 'Back', microposts_path %>
+
+
+<p>
+  <h3>Comments (<%= @micropost.comments.count %>)</h3>
+</p>
+<% @micropost.comments.each do |comment| %>
+  <!--Reporter-->
+ 
+  <%= comment.body %>
+  <p></p>
+  <%= time_ago_in_words(comment.created_at) + " ago" %>
+
+  <!--Link to edit-->
+  <!--Link to delete-->
+<% end %>
+
+<%= render 'comment_form', micropost: @micropost %>
+
+
+
+

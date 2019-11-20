@@ -1,0 +1,11 @@
+<%= form_with(model: [ @micropost, @micropost.comments.build ], local: true) do |form| %>
+     <div class="input" style="margin-left: -145px">
+        <%= form.text_area :body, :placeholder => "What do you want to say?"%>
+     </div>
+     
+    <div class="actions">
+      <%= form.submit :"Save", :class => 'save' %>
+      <%= link_to 'Cancel', :class => 'cancel'%>
+    </div>
+
+<% end %>

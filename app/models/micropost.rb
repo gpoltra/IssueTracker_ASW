@@ -4,6 +4,5 @@ class Micropost < ApplicationRecord
     has_many :comments, dependent: :destroy
     has_many :votes, dependent: :destroy
     has_many :watchers, dependent: :destroy
-  validates :description, length: { maximum: 240 }
   #validates :user_id, presence: true
 end
