@@ -75,6 +75,23 @@
 
 <%= link_to 'Edit', edit_micropost_path(@micropost) %> |
 <%= link_to 'Back', microposts_path %>
+<p>
+  <% if 1 %>
+    <% if @micropost.status == "Open" || @micropost.status == "New" %>
+        <%= link_to 'Resolve', update_status_url(id: @micropost.id, status: "Resolved"), method: :put %>
+    <% else %>
+        <%= link_to 'Open', update_status_url(id: @micropost.id, status: "Open"), method: :put, class:'open'%>
+    <% end %>
+    <strong>Change Workflow:</strong>
+    <ul>
+      <% Micropost.status.each do |status| %>
+        <% if status != @micropost.status %>
+          <%= content_tag(:li, link_to(status, update_status_url(id: @micropost.id, status: status), method: :put)) %>
+        <% end %>
+      <% end %>
+    </ul>
+  <% end %>
+</p>
 
 
 <p>

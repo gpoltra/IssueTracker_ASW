@@ -105,6 +105,39 @@ class MicropostsController < ApplicationController
       format.json { render json: @issue_to_vote, status: :ok }
     end
   end
+  
+   def watch
+    respond_to do |format|
+      @issue_to_watch = Micropost.find(params[:id])
+      if !Watcher.exists?(:micropost_id => @issue_to_watch.id, :user_id => 1)
+        @watcher = Watcher.new
+        @watcher.user_id = 1
+        @watcher.micropost_id = @issue_to_watch.id
+        @watcher.save
+        @issue_to_watch.increment!("watchers")
+      else
+        @watcher = Watcher.where(micropost_id: params[:id], user_id: 1).take
+        @watcher.destroy
+        @issue_to_watch.decrement!("watchers")
+      end
+      if params[:view] == "index"
+        format.html { redirect_to issues_url}
+      else
+        format.html { redirect_to @issue_to_watch}
+      end
+      format.json { render json: @issue_to_watch, status: :ok }
+    end
+  end
+  
+  def update_status
+    respond_to do |format|
+      @issue_to_update = Micropost.find(params[:id])
+      @issue_to_update.update_attribute("status", params[:status])
+      
+      format.html { redirect_to @issue_to_update }
+      format.json { render json: @issue_to_update, status: :ok }
+    end
+  end
 
   # DELETE /microposts/1
   # DELETE /microposts/1.json
