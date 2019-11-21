@@ -110,7 +110,7 @@ class MicropostsController < ApplicationController
     end
   end
   
-   def watch
+  def watch
     respond_to do |format|
       @issue_to_watch = Micropost.find(params[:id])
       if !Watcher.exists?(:micropost_id => @issue_to_watch.id, :user_id => 1)
@@ -161,6 +161,6 @@ class MicropostsController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def micropost_params
-      params.require(:micropost).permit(:title, :description, :type_issue, :priority)
+      params.require(:micropost).permit(:title, :description, :type_issue, :priority, things: [])
     end
 end
