@@ -30,9 +30,17 @@
   <p class="no-description">No description provided.</p>
 <% end %>
 
+
 <p>
-  <strong>Attachments:</strong>
-  <%= link_to "My document", "www.google.es", target: "_blank" %>
+  <% if @micropost.things.attached? %>
+    <strong>Attachments:</strong>
+    <% @micropost.things.each do |thing| %>
+      <p><a class="attachment-url" href=<%= url_for(thing)%> > <%=thing.filename%> </a></p>
+      <% if thing.previewable? %>
+        <%= image_tag(thing.preview(resize: '200x200')) %>
+      <% end %>
+    <% end %>
+  <% end %>
 </p>
 
 <p>
