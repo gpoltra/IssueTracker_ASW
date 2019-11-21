@@ -35,13 +35,15 @@
   <% if @micropost.things.attached? %>
     <strong>Attachments:</strong>
     <% @micropost.things.each do |thing| %>
-      <p><a class="attachment-url" href=<%= url_for(thing)%> > <%=thing.filename%> </a></p>
       <% if thing.previewable? %>
         <%= image_tag(thing.preview(resize: '200x200')) %>
       <% end %>
+      <p><a class="attachment-url" href=<%= url_for(thing)%> > <%=thing.filename%> </a>
     <% end %>
   <% end %>
 </p>
+
+
 
 <p>
   <strong>Assignee</strong>

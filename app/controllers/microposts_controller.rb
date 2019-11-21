@@ -110,7 +110,7 @@ class MicropostsController < ApplicationController
     end
   end
   
-   def watch
+  def watch
     respond_to do |format|
       @issue_to_watch = Micropost.find(params[:id])
       if !Watcher.exists?(:micropost_id => @issue_to_watch.id, :user_id => 1)
