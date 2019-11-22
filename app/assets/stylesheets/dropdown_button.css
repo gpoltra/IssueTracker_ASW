@@ -24,7 +24,7 @@
   display: inline-block;
 }
 .btn_content a:link {
-  background-color: #0747A6;
+  background-color: #0052cc;
   color: white;
   padding: 13px 13px;
   text-align: center;
@@ -32,7 +32,7 @@
   display: inline-block;
 }
 .btn_content a:visited {
-  background-color: #0747A6;
+  background-color: #0052cc;
   color: white;
   padding: 13px 13px;
   text-align: center;
@@ -41,11 +41,11 @@
 }
 
 .btn_content a:hover {
-  background-color: #0747A6;
+  background-color: #0052cc;
 }
 
 .btn_content a:active {
-  background-color: #0747A6;
+  background-color: #0052cc;
 }
 .btn_edit {
   padding-left: 15px; 
