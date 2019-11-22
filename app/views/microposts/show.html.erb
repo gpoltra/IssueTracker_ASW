@@ -10,7 +10,7 @@
 <p>
 <% end %>
 
-<div class="btn_edit", style="float:right;">
+<div class="btn_edit", style="float:right; padding-top:5px">
       <%= link_to 'Create issue', new_micropost_path %>
 </div>
 
@@ -62,14 +62,15 @@
 <% end %>
 
 
-<div style="padding: 8px; border: 1px solid #798599; float:right; padding-left: 25px;">
+<div style="padding: 8px; border: 1px solid #EAEAEA; float:right; padding-left: 25px;">
+  <p style="padding-right: 10px;">
     <strong>Assignee</strong>
     <% if !@micropost.assignee.nil? %>
     
     <% else %>
       -
     <% end %>
-    
+  </p>  
     <p>
       <strong>Type</strong>
       <%= @micropost.type_issue %>
@@ -89,7 +90,7 @@
       <%= @micropost.votes %>
       <%= link_to 'Vote for this issue', vote_url(id: @micropost.id), method: :post, class:"vote" %>
     </p>
-    <p>
+    <p style="padding-right: 10px;">
       <strong>Watchers</strong>
       <%= @micropost.watchers %>
   
