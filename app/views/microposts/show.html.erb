@@ -106,9 +106,11 @@
       <% end %>
       <p>
         <a class="attachment_url" href=<%= url_for(thing)%> > <%=thing.filename%> </a>
-        <%= link_to 'Remove', micropost_delete_attachment_url(thing.id),
+        <% if 1 %>
+          <%= link_to 'Remove', micropost_delete_attachment_url(thing.id),
                               method: :delete,
                               data: { confirm: 'Are you sure you want to delete this attachment?' } %>
+        <% end %>
       </p>
     <% end %>
   <% end %>
