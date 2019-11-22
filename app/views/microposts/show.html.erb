@@ -11,11 +11,11 @@
 <% end %>
 
 <p>
-      Issue #<%= @micropost.id %>
+  <h2><%= @micropost.title %></h2>
 </p>
 
 <p>
-  <h2><%= @micropost.title %></h2>
+      Issue #<%= @micropost.id %>
 </p>
 
 <p>
@@ -82,25 +82,30 @@
   <%= link_to 'Watch this issue', watch_url(id: @micropost.id, view: "micropost"), method: :post, class: "vote" %>
 </p>
 
-
-<%= link_to 'Edit', edit_micropost_path(@micropost) %> |
-<%= link_to 'Back', microposts_path %>
-
-<p>
+<p align=right>
   <% if 1 %>
-    <% if @micropost.status == "Open" || @micropost.status == "New" %>
-        <%= link_to 'Resolve', update_status_url(id: @micropost.id, status: "Resolved"), method: :put %>
-    <% else %>
-        <%= link_to 'Open', update_status_url(id: @micropost.id, status: "Open"), method: :put, class:'open'%>
-    <% end %>
-    <strong>Change Workflow:</strong>
-    <ul>
-      <% Micropost.status.each do |status| %>
-        <% if status != @micropost.status %>
-          <%= content_tag(:li, link_to(status, update_status_url(id: @micropost.id, status: status), method: :put)) %>
+    <div class="dropdown">
+      <%= stylesheet_link_tag "dropdown_button" %>
+      <div id="Content" class="btn_content", style="float: left">
+        <% if @micropost.status == "Open" || @micropost.status == "New" %>
+           <%= link_to 'Resolve', update_status_url(id: @micropost.id, status: "Resolved"), method: :put %>
+        <% else %>
+          <%= link_to 'Open', update_status_url(id: @micropost.id, status: "Open"), method: :put, class:'open'%>
         <% end %>
-      <% end %>
-    </ul>
+      </div>
+      <%= javascript_include_tag "dropdown_show" %>
+      <button onclick="myFunction()" class="dropbtn" >Workflow</button>
+      <div id="myDropdown" class="dropdown-content">
+        <% Micropost.status.each do |status| %>
+          <% if status != @micropost.status %>
+            <%= link_to(status, update_status_url(id: @micropost.id, status: status), method: :put) %>
+            <% end %>
+        <% end %>
+     </div>
+     <div class="btn_edit", style="float: right">
+      <%= link_to 'Edit', edit_micropost_path(@micropost) %>
+      </div>
+    </div>
   <% end %>
 </p>
 
