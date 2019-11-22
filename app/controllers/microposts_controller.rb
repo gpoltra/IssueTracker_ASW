@@ -142,6 +142,12 @@ class MicropostsController < ApplicationController
       format.json { render json: @issue_to_update, status: :ok }
     end
   end
+  
+  def delete_attachment
+    @attach_obj = ActiveStorage::Attachment.find(params[:micropost_id])
+    @attach_obj.purge
+    redirect_back(fallback_location: request.referer)
+  end
 
   # DELETE /microposts/1
   # DELETE /microposts/1.json

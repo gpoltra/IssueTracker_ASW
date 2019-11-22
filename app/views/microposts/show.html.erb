@@ -1,5 +1,5 @@
 <p id="notice"><%= notice %></p>
-
+<%= stylesheet_link_tag "dropdown_button" %>
 
 
 <% if false %>
@@ -25,7 +25,6 @@
 <div style="float:right;">
   <% if 1 %>
     <div class="dropdown">
-      <%= stylesheet_link_tag "dropdown_button" %>
       <div id="Content" class="btn_content", style="float: left">
         <% if @micropost.status == "Open" || @micropost.status == "New" %>
            <%= link_to 'Resolve', update_status_url(id: @micropost.id, status: "Resolved"), method: :put %>
@@ -105,7 +104,12 @@
       <% if thing.previewable? %>
         <%= image_tag(thing.preview(resize: '200x200')) %>
       <% end %>
-      <p><a class="attachment-url" href=<%= url_for(thing)%> > <%=thing.filename%> </a>
+      <p>
+        <a class="attachment_url" href=<%= url_for(thing)%> > <%=thing.filename%> </a>
+        <%= link_to 'Remove', micropost_delete_attachment_url(thing.id),
+                              method: :delete,
+                              data: { confirm: 'Are you sure you want to delete this attachment?' } %>
+      </p>
     <% end %>
   <% end %>
 </p>

@@ -6,6 +6,7 @@ Rails.application.routes.draw do
   resources :sessions
   resources :microposts do
     resources :comments
+    delete :delete_attachment
   end
   get "/auth/google_oauth2/callback", to: "sessions#create"
   get "/login", to: redirect("/auth/google_oauth2")

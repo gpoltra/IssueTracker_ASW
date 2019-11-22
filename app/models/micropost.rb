@@ -4,7 +4,7 @@ class Micropost < ApplicationRecord
   has_many :comments, dependent: :destroy
   has_many :Votes, dependent: :destroy
   has_many :Watchers, dependent: :destroy
-  has_many_attached :things
+  has_many_attached :things, dependent: :destroy
   
   def self.status
     ["New", "Open", "On hold", "Resolved", "Duplicate", "Invalid", "Won't fix", "Closed"]

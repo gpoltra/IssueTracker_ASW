@@ -83,6 +83,9 @@
   background-color: #F4F5F7;
 }
 
+.attachment_url {
+  padding-right: 10px;
+}
 
 /* Dropdown Content (Hidden by Default) */
 .dropdown-content {
