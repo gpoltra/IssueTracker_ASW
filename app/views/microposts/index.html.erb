@@ -51,14 +51,14 @@
     <col width="2%">
     <thead >
       <tr>
-        <th>Title</th>
-        <th >T</th>
-        <th >P</th>
-        <th>Status</th>
-        <th >Votes</th>
+        <th onclick="sortTable(0)">Title</th>
+        <th onclick="sortTable(1)">T</th>
+        <th onclick="sortTable(2)">P</th>
+        <th onclick="sortTable(3)">Status</th>
+        <th onclick="sortTable(4)">Votes</th>
         <th >Assignee</th>
-        <th> Created</th>
-        <th >Updated</th>
+        <th onclick="sortTable(6)"> Created</th>
+        <th onclick="sortTable(7)">Updated</th>
         <th colspan="1"></th>
       </tr>
     </thead>
@@ -109,40 +109,41 @@
       }
     }
     
-    function filterPriority() {
-      var table, tr, td, i, txtValue;
+    function sortTable(column) {
+      var table, rows, switching, i, x, y, shouldSwitch;
       table = document.getElementById("myTable");
-      tr = table.getElementsByTagName("tr");
-      for (i = 0; i < tr.length; i++) {
-        td = tr[i].getElementsByTagName("td")[2];
-        if (td) {
-          txtValue = td.textContent || td.innerText;
-          if (txtValue.toUpperCase() == "MAJOR") {
-            tr[i].style.display = "";
-          } else {
-            tr[i].style.display = "none";
+      switching = true;
+      /* Make a loop that will continue until
+      no switching has been done: */
+      while (switching) {
+        // Start by saying: no switching is done:
+        switching = false;
+        rows = table.rows;
+        /* Loop through all table rows (except the
+        first, which contains table headers): */
+        for (i = 1; i < (rows.length - 1); i++) {
+          // Start by saying there should be no switching:
+          shouldSwitch = false;
+          /* Get the two elements you want to compare,
+          one from current row and one from the next: */
+          x = rows[i].getElementsByTagName("TD")[column];
+          y = rows[i + 1].getElementsByTagName("TD")[column];
+          // Check if the two rows should switch place:
+          if (x.innerHTML.toLowerCase() > y.innerHTML.toLowerCase()) {
+            // If so, mark as a switch and break the loop:
+            shouldSwitch = true;
+            break;
           }
-        }       
-      }
-    }
-    
-    function filterType(text) {
-      var table, tr, td, i, txtValue, toFilter;
-      table = document.getElementById("myTable");
-      tr = table.getElementsByTagName("tr");
-      toFilter = "bug";
-      for (i = 0; i < tr.length; i++) {
-        td = tr[i].getElementsByTagName("td")[1];
-        if (td) {
-          txtValue = td.textContent;
-          if (txtValue == toFilter) {
-            tr[i].style.display = "";
-          }
-          else {
-            tr[i].style.display = "none";
-          }
+        }
+        if (shouldSwitch) {
+          /* If a switch has been marked, make the switch
+          and mark that a switch has been done: */
+          rows[i].parentNode.insertBefore(rows[i + 1], rows[i]);
+          switching = true;
         }
       }
     }
+    
+    
   </script>
 </body>
