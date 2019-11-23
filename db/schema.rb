@@ -55,10 +55,6 @@ ActiveRecord::Schema.define(version: 2019_11_20_212122) do
     t.string "status", default: "New"
     t.integer "votes", default: 0
     t.integer "watchers", default: 0
-    t.string "attachment_file_name"
-    t.string "attachment_content_type"
-    t.integer "attachment_file_size"
-    t.datetime "attachment_updated_at"
   end
 
   create_table "users", force: :cascade do |t|
