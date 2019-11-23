@@ -14,8 +14,8 @@ class MicropostsController < ApplicationController
         end
     end
     
-    if params.has_key?(:type)
-        @microposts = @microposts.where(Type: params[:type])
+    if params.has_key?(:type_issue)
+        @microposts = @microposts.where(Type_issue: params[:type_issue])
     end
     
     if params.has_key?(:priority)

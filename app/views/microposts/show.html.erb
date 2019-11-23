@@ -72,16 +72,16 @@
   </p>  
     <p>
       <strong>Type</strong>
-      <%= @micropost.type_issue %>
+      <%= link_to @micropost.type_issue , microposts_url(type_issue: @micropost.type_issue) %>
     </p>
     <p>
       <strong>Priority</strong>
-      <%= @micropost.priority %>
+      <td><%= link_to@micropost.priority , microposts_url(priority: @micropost.priority) %></td>
     </p>
 
     <p>
       <strong>Status</strong>
-      <%= @micropost.status %>
+      <%= link_to @micropost.status, microposts_url(status: @micropost.status)%>
     </p>
 
     <p>
