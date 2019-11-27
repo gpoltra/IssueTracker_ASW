@@ -1,10 +1,11 @@
 class Micropost < ApplicationRecord
-  
+  belongs_to :user
   belongs_to :assignee, class_name: 'User', foreign_key: :assignee_id, optional: true
   has_many :comments, dependent: :destroy
   has_many :Votes, dependent: :destroy
   has_many :Watchers, dependent: :destroy
   has_many_attached :things, dependent: :destroy
+  validates :description, presence: true, length: { maximum: 140 }
   
   def self.status
     ["New", "Open", "On hold", "Resolved", "Duplicate", "Invalid", "Won't fix", "Closed"]
