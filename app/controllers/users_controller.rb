@@ -20,14 +20,6 @@ class UsersController < ApplicationController
     end
   end
   
-  def the_current_user
-    respond_to do |format|
-      @user = current_user
-      format.html
-      format.json {render json: @user, status: :ok, serializer: UserSerializer}
-    end
-  end
-
   # GET /users/new
   def new
     @user = User.new
@@ -44,6 +36,7 @@ class UsersController < ApplicationController
 
     respond_to do |format|
       if @user.save
+      log_in @user
       format.html { redirect_to microposts_path(@micropost), notice: 'User was successfully created.' }
       format.json { render :show, status: :created, location: @user }
       else
@@ -70,6 +63,7 @@ class UsersController < ApplicationController
   # DELETE /users/1
   # DELETE /users/1.json
   def destroy
+    log_out
     @user.destroy
     respond_to do |format|
       format.html { redirect_to users_url, notice: 'User was successfully destroyed.' }
@@ -77,15 +71,6 @@ class UsersController < ApplicationController
     end
   end
   
-  def the_current_user
-    respond_to do |format|
-      @user = current_user
-      format.html
-      format.json {render json: @user, status: :ok, serializer: UserSerializer}
-    end
-  end
-
-
   private
     # Use callbacks to share common setup or constraints between actions.
     def set_user

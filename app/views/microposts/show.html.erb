@@ -1,18 +1,11 @@
 <p id="notice"><%= notice %></p>
 <%= stylesheet_link_tag "dropdown_button" %>
 
-
-<% if false %>
-<p>
-  <strong>User:</strong>
-  <%= @micropost.user.name %>
-  
-<p>
-<% end %>
-
-<div class="btn_edit", style="float:right; padding-top:5px">
+<% if logged_in? %>
+  <div class="btn_edit", style="float:right; padding-top:5px">
       <%= link_to 'Create issue', new_micropost_path %>
-</div>
+  </div>
+<% end %>
 
 <p>
   <h2><%= @micropost.title %></h2>
@@ -23,33 +16,36 @@
 </p>
 
 <div style="float:right;">
-  <% if 1 %>
-    <div class="dropdown">
-      <div id="Content" class="btn_content", style="float: left">
-        <% if @micropost.status == "Open" || @micropost.status == "New" %>
-           <%= link_to 'Resolve', update_status_url(id: @micropost.id, status: "Resolved"), method: :put %>
-        <% else %>
-          <%= link_to 'Open', update_status_url(id: @micropost.id, status: "Open"), method: :put, class:'open'%>
-        <% end %>
+  <% if logged_in? %>
+    <% if current_user.id == @micropost.user_id %>
+      <div class="dropdown">
+        <div id="Content" class="btn_content", style="float: left">
+          <% if @micropost.status == "Open" || @micropost.status == "New" %>
+             <%= link_to 'Resolve', update_status_url(id: @micropost.id, status: "Resolved"), method: :put %>
+          <% else %>
+            <%= link_to 'Open', update_status_url(id: @micropost.id, status: "Open"), method: :put, class:'open'%>
+          <% end %>
+        </div>
+        <%= javascript_include_tag "dropdown_show" %>
+        <button onclick="myFunction()" class="dropbtn" >Workflow</button>
+        <div id="myDropdown" class="dropdown-content">
+          <% Micropost.status.each do |status| %>
+            <% if status != @micropost.status %>
+              <%= link_to(status, update_status_url(id: @micropost.id, status: status), method: :put) %>
+              <% end %>
+          <% end %>
+       </div>
+       <div class="btn_edit", style="float: right">
+        <%= link_to 'Edit', edit_micropost_path(@micropost) %>
+        </div>
       </div>
-      <%= javascript_include_tag "dropdown_show" %>
-      <button onclick="myFunction()" class="dropbtn" >Workflow</button>
-      <div id="myDropdown" class="dropdown-content">
-        <% Micropost.status.each do |status| %>
-          <% if status != @micropost.status %>
-            <%= link_to(status, update_status_url(id: @micropost.id, status: status), method: :put) %>
-            <% end %>
-        <% end %>
-     </div>
-     <div class="btn_edit", style="float: right">
-      <%= link_to 'Edit', edit_micropost_path(@micropost) %>
-      </div>
-    </div>
+    <% end %>
   <% end %>
 </div>
 
 <p>
-  <strong> created an issue</strong>
+  <strong><%= @micropost.user.name %></strong>
+  created an issue
   <time><%= @micropost.created_at.strftime('%Y-%m-%d')%></time>
 </p>
 
@@ -87,13 +83,20 @@
     <p>
       <strong>Votes</strong>
       <%= @micropost.votes %>
-      <%= link_to 'Vote for this issue', vote_url(id: @micropost.id), method: :post, class:"vote" %>
+      <% if !Vote.exists?(:micropost_id => @micropost.id, :user_id => current_user.id) %>
+        <%= link_to 'Vote for this issue', vote_url(id: @micropost.id), method: :post, class:"vote" %>
+      <% else %>
+        <%= link_to 'Remove vote', vote_url(id: @micropost.id), method: :post, class:"vote" %>
+      <% end %>
     </p>
     <p style="padding-right: 10px;">
       <strong>Watchers</strong>
       <%= @micropost.watchers %>
-  
-      <%= link_to 'Watch this issue', watch_url(id: @micropost.id, view: "micropost"), method: :post, class: "vote" %>
+      <% if !Watcher.exists?(:micropost_id => @micropost.id, :user_id => current_user.id) %>
+        <%= link_to 'Watch this issue', watch_url(id: @micropost.id, view: "micropost"), method: :post, class: "vote" %>
+      <% else %>
+        <%= link_to 'Stop watching', watch_url(id: @micropost.id, view: "micropost"), method: :post, class: "vote" %>
+      <% end %>
     </p>
 </div>
 

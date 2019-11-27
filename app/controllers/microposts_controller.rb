@@ -65,9 +65,14 @@ class MicropostsController < ApplicationController
   # POST /microposts.json
   def create
     @micropost = Micropost.new(micropost_params)
-
+    @micropost.user_id = current_user.id
     respond_to do |format|
       if @micropost.save
+        @watcher = Watcher.new
+        @watcher.user_id = current_user.id
+        @watcher.micropost_id = @micropost.id
+        @watcher.save
+        @micropost.increment!("watchers")
         format.html { redirect_to @micropost, notice: 'Micropost was successfully created.' }
         format.json { render :show, status: :created, location: @micropost }
       else
@@ -94,14 +99,14 @@ class MicropostsController < ApplicationController
   def vote
     respond_to do |format|
       @issue_to_vote = Micropost.find(params[:id])
-      if !Vote.exists?(:micropost_id => @issue_to_vote.id, :user_id => 1)
+      if !Vote.exists?(:micropost_id => @issue_to_vote.id, :user_id => current_user.id)
         @vote = Vote.new
-        @vote.user_id = 1
+        @vote.user_id = current_user.id
         @vote.micropost_id = @issue_to_vote.id
         @vote.save
         @issue_to_vote.increment!(:votes)
       else
-        @vote = Vote.where(micropost_id: params[:id], user_id: 1).take
+        @vote = Vote.where(micropost_id: params[:id], user_id: current_user.id).take
         @vote.destroy
         @issue_to_vote.decrement!(:votes)
       end
@@ -113,14 +118,14 @@ class MicropostsController < ApplicationController
   def watch
     respond_to do |format|
       @issue_to_watch = Micropost.find(params[:id])
-      if !Watcher.exists?(:micropost_id => @issue_to_watch.id, :user_id => 1)
+      if !Watcher.exists?(:micropost_id => @issue_to_watch.id, :user_id => current_user.id)
         @watcher = Watcher.new
-        @watcher.user_id = 1
+        @watcher.user_id = current_user.id
         @watcher.micropost_id = @issue_to_watch.id
         @watcher.save
         @issue_to_watch.increment!("watchers")
       else
-        @watcher = Watcher.where(micropost_id: params[:id], user_id: 1).take
+        @watcher = Watcher.where(micropost_id: params[:id], user_id: current_user.id).take
         @watcher.destroy
         @issue_to_watch.decrement!("watchers")
       end
