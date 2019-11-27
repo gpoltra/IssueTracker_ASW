@@ -1,6 +1,6 @@
 Rails.application.routes.draw do
-  get '/users/current_user' => "users#the_current_user", as: :current_user
 
+  get 'sessions/new'
   resources :microposts
   resources :users
   resources :sessions
