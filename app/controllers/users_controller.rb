@@ -4,12 +4,28 @@ class UsersController < ApplicationController
   # GET /users
   # GET /users.json
   def index
-    @users = User.all
+    respond_to do |format|
+      @users = User.all
+      format.html
+      format.json {render json: @users, status: :ok, each_serializer: UserindexSerializer}
+    end
   end
 
   # GET /users/1
   # GET /users/1.json
   def show
+    respond_to do |format|
+      format.html
+      format.json {render json: @user, status: :ok, serializer: UserSerializer}
+    end
+  end
+  
+  def the_current_user
+    respond_to do |format|
+      @user = current_user
+      format.html
+      format.json {render json: @user, status: :ok, serializer: UserSerializer}
+    end
   end
 
   # GET /users/new
@@ -60,6 +76,15 @@ class UsersController < ApplicationController
       format.json { head :no_content }
     end
   end
+  
+  def the_current_user
+    respond_to do |format|
+      @user = current_user
+      format.html
+      format.json {render json: @user, status: :ok, serializer: UserSerializer}
+    end
+  end
+
 
   private
     # Use callbacks to share common setup or constraints between actions.

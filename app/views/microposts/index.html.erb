@@ -23,15 +23,22 @@
 <body>
   <p id="notice"><%= notice %></p>
   
-  <div class="header">
-    <div class="section-title">
-      <h1>Issues</h1>
+  <div style="position: relative;" class="header">
+    <h1>Issues</h1>
+    <div style="position: absolute; top: 0; right: 0;">
+      <%= link_to 'Create issue', new_micropost_path %>
+       <input type="text" id="myInput" onkeyup="search()" placeholder="Find issues">
     </div>
-    
-</div>
-  <%= link_to 'Create issue', new_micropost_path %>
-  <input type="text" id="myInput" onkeyup="search()" placeholder="Find issues">
+  </div>
   
+  <div style = "display: inline; position: relative;">
+    <a>Filter by: </a>
+    <a href="/microposts">All</a>
+    <a><%= link_to "Open", microposts_url(status: "Open")%></a>
+    <a href="/microposts">My issues</a>
+     <a href="/microposts">Watching</a>
+  </div>
+
   <table id = "myTable">
     <col width="48%">
     <col width="5%">
@@ -44,29 +51,34 @@
     <col width="2%">
     <thead >
       <tr>
-        <th>Title</th>
-        <th >T</th>
-        <th >P</th>
-        <th>Status</th>
-        <th >Votes</th>
+        <th onclick="sortTable(0)">Title</th>
+        <th onclick="sortTable(1)">T</th>
+        <th onclick="sortTable(2)">P</th>
+        <th onclick="sortTable(3)">Status</th>
+        <th onclick="sortTable(4)">Votes</th>
         <th >Assignee</th>
-        <th> Created</th>
-        <th >Updated</th>
-        <th colspan="3"></th>
+        <th onclick="sortTable(6)"> Created</th>
+        <th onclick="sortTable(7)">Updated</th>
+        <th colspan="1"></th>
       </tr>
     </thead>
   
     <tbody>
       <% @microposts.each do |micropost| %>
         <tr>
-          <td><%= link_to micropost.title, micropost %></td>
-          <td><%= link_to micropost.type_issue, microposts_url(type_issue: micropost.type_issue), class:"btn-link" %></td>
-          <td onclick="filterPriority"><%= link_to micropost.priority, class:"btn-link" %></td>
-          <td><%= "Status" %></td>
-          <td><%= "Votes" %></td>
-          <td><%= "Asignee" %></td>
+          <td><%= link_to micropost.title, micropost, class:"btn-link" %></td>
+          <td><%= link_to micropost.type_issue , microposts_url(type_issue: micropost.type_issue), class:"btn-link" %></td>
+          <td><%= link_to micropost.priority , microposts_url(priority: micropost.priority), class:"btn-link" %></td>
+          <td><%= link_to micropost.status, microposts_url(status: micropost.status), class:"btn-link" %></td>
+          <td><%= micropost.votes %></td>
+          <% if !micropost.assignee.nil? %>
+            <td><%= link_to micropost.assignee.name, microposts_url(assignee: micropost.assignee.id), class:"btn-link" %></td>
+          <% else %>
+            <td></td>
+          <% end %>
           <td><%= time_ago_in_words(micropost.created_at) + " ago" %></td>
           <td><%= time_ago_in_words(micropost.updated_at) + " ago" %></td>
+          
           <% if false %>
             <td><%= link_to 'Show', micropost %></td>
             <td><%= link_to 'Edit', edit_micropost_path(micropost) %></td>
@@ -77,7 +89,7 @@
     </tbody>
   </table>
   
-  <script>
+  <script type='text/javascript'>
     function search() {
       var input, filter, table, tr, td, i, txtValue;
       input = document.getElementById("myInput");
@@ -97,21 +109,41 @@
       }
     }
     
-    function filterPriority() {
-      var table, tr, td, i, txtValue;
+    function sortTable(column) {
+      var table, rows, switching, i, x, y, shouldSwitch;
       table = document.getElementById("myTable");
-      tr = table.getElementsByTagName("tr");
-      for (i = 0; i < tr.length; i++) {
-        td = tr[i].getElementsByTagName("td")[2];
-        if (td) {
-          txtValue = td.textContent || td.innerText;
-          if (txtValue.toUpperCase() == "MAJOR") {
-            tr[i].style.display = "";
-          } else {
-            tr[i].style.display = "none";
+      switching = true;
+      /* Make a loop that will continue until
+      no switching has been done: */
+      while (switching) {
+        // Start by saying: no switching is done:
+        switching = false;
+        rows = table.rows;
+        /* Loop through all table rows (except the
+        first, which contains table headers): */
+        for (i = 1; i < (rows.length - 1); i++) {
+          // Start by saying there should be no switching:
+          shouldSwitch = false;
+          /* Get the two elements you want to compare,
+          one from current row and one from the next: */
+          x = rows[i].getElementsByTagName("TD")[column];
+          y = rows[i + 1].getElementsByTagName("TD")[column];
+          // Check if the two rows should switch place:
+          if (x.innerHTML.toLowerCase() > y.innerHTML.toLowerCase()) {
+            // If so, mark as a switch and break the loop:
+            shouldSwitch = true;
+            break;
           }
-        }       
+        }
+        if (shouldSwitch) {
+          /* If a switch has been marked, make the switch
+          and mark that a switch has been done: */
+          rows[i].parentNode.insertBefore(rows[i + 1], rows[i]);
+          switching = true;
+        }
       }
     }
+    
+    
   </script>
 </body>
