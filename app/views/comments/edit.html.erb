@@ -9,6 +9,6 @@
   
   <div class="actions" style="margin-left: 1150px">
     <%= form.submit :"Update Comment", :class => 'submit'%>
-    <%= link_to 'Cancel', microposts_path, :class => 'cancel' %>
+    <%= link_to 'Cancel', micropost_path(@micropost), :class => 'cancel' %>
   </div>
 <% end %>

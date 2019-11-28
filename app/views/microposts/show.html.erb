@@ -130,8 +130,7 @@
     <% end %>
     <p><%= comment.body %></p>
     </p>
-    <!--Link to edit-->
-    <!--Link to delete-->
+    
     <% if comment.user.id == current_user.id %>
       <%= link_to 'Edit', edit_micropost_comment_path(@micropost, comment) %>
       <%= link_to 'Delete', [comment.micropost, comment],
