@@ -61,7 +61,7 @@
   <p style="padding-right: 10px;">
     <strong>Assignee</strong>
     <% if !@micropost.assignee.nil? %>
-    
+      <%= link_to  @micropost.assignee.name, microposts_url(assignee: @micropost.assignee.id), class:"btn-link" %> 
     <% else %>
       -
     <% end %>
