@@ -1,0 +1,14 @@
+<h2>Comments</h2>
+<h4>Edit comment</h4>
+
+<%= form_for [@micropost, @comment] do |form| %>
+<div class="input-group" style="margin-bottom: 50px" >
+    <p>Comment content</p>
+    <%= form.text_area :body %>
+  </div>
+  
+  <div class="actions" style="margin-left: 1150px">
+    <%= form.submit :"Update Comment", :class => 'submit'%>
+    <%= link_to 'Cancel', micropost_path(@micropost), :class => 'cancel' %>
+  </div>
+<% end %>

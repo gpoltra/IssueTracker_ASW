@@ -25,6 +25,8 @@ class CommentsController < ApplicationController
 
   # GET /comments/1/edit
   def edit
+    @micropost = Micropost.find(params[:micropost_id])
+    @comment = @micropost.comments.find(params[:id])
   end
 
   # POST /comments
@@ -32,21 +34,23 @@ class CommentsController < ApplicationController
   def create
     @comment = Comment.new(comment_params)
     @micropost = Micropost.find(params[:micropost_id])
-    @comment.issue_id = @micropost.id
+    @comment.micropost_id = @micropost.id
     @comment.user_id = current_user.id
     @comment.save
     respond_to do |format|
       format.json {render json: @comment, status: :created, each_serializer: CommentSerializer}
-      format.html {redirect_to microposts_path(@micropost)}
+      format.html {redirect_to request.referrer}
     end
   end
 
   # PATCH/PUT /comments/1
   # PATCH/PUT /comments/1.json
   def update
+    @micropost = Micropost.find(params[:micropost_id])
+    @comment = @micropost.comments.find(params[:id])
     respond_to do |format|
       if @comment.update(comment_params)
-        format.html { redirect_to @comment, notice: 'Comment was successfully updated.' }
+        format.html { redirect_to @micropost, notice: 'Comment was successfully updated.' }
         format.json { render :show, status: :ok, location: @comment }
       else
         format.html { render :edit }
@@ -66,23 +70,7 @@ class CommentsController < ApplicationController
     respond_to do |format|
       if @comment.user_id == current_user.id
         format.json {render json: {}, status: :ok}
-        format.html {redirect_to microposts_path(@issue)}
-      else
-        format.json {render json: {error: "Forbidden, you are not the creator of this comment"}, status: :forbidden}
-      end
-    end
-  end
-
-  def update
-    @micropost = Micropost.find(params[:micropost_id])
-    @comment = @micropost.comments.find(params[:id])
-    if @comment.user_id == current_user.id
-      @comment.update(comment_params)
-    end
-    respond_to do |format|
-      if @comment.user_id == current_user.id
-        format.json {render json: @comment, status: :ok, each_serializer: CommentSerializer}
-        format.html {redirect_to microposts_path(@issue)}
+        format.html {redirect_to request.referrer}
       else
         format.json {render json: {error: "Forbidden, you are not the creator of this comment"}, status: :forbidden}
       end
@@ -97,6 +85,6 @@ class CommentsController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def comment_params
-      params.require(:comment).permit(:body, :user_id, :issue_id)
+      params.require(:comment).permit(:body)
     end
 end

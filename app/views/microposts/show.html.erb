@@ -122,23 +122,23 @@
 <div class="issue_comments">
   <h3>Comments (<%= @micropost.comments.count %>)</h3>
   <p>
-<% @micropost.comments.each do |comment| %>
-  <!--Reporter %=comment.user.name %>-->
-
-   
-  <p>
-  <%= comment.body %>
-  </p>
-  <%= time_ago_in_words(comment.created_at) + " ago" %>
-  <!--% if comment.user.id == current_user.id %>-->
-  <!--Link to edit-->
-  <!--Link to delete-->
-  <%= link_to 'Delete', [comment.issue, comment],
+  <% @micropost.comments.each do |comment| %>
+    <p>
+    <strong><%=comment.user.name%></strong>
+    <% if comment.user.id == @micropost.user_id %>
+    Reporter
+    <% end %>
+    <p><%= comment.body %></p>
+    </p>
+    
+    <% if comment.user.id == current_user.id %>
+      <%= link_to 'Edit', edit_micropost_comment_path(@micropost, comment) %>
+      <%= link_to 'Delete', [comment.micropost, comment],
                method: :delete,
                data: { confirm: 'Are you sure?' } %>
-  
+    <% end %>
+    <%= time_ago_in_words(comment.created_at) + " ago" %>
   <% end %>
-
   <%= render 'comment_form', micropost: @micropost %>
 </div>
 
