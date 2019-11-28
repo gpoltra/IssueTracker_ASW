@@ -10,6 +10,7 @@ gem 'jbuilder',   '2.9.1'
 gem 'bootsnap',   '1.4.4', require: false
 gem 'bcrypt-ruby', :require => 'bcrypt' 
 gem 'omniauth-google-oauth2'
+gem "oauth2", "~> 1.4.0"
 
 group :development, :test do
   gem 'sqlite3', '1.4.1'
