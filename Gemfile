@@ -10,6 +10,7 @@ gem 'jbuilder',   '2.9.1'
 gem 'bootsnap',   '1.4.4', require: true
 gem 'bcrypt-ruby', :require => 'bcrypt' 
 gem 'omniauth-google-oauth2'
+gem 'rack-cors'
 
 group :development, :test do
   gem 'sqlite3', '1.4.1'
@@ -32,6 +33,8 @@ end
 group :production do
   gem 'pg', '1.1.4'
 end
+
+
 
 # Windows does not include zoneinfo files, so bundle the tzinfo-data gems
 gem 'tzinfo-data', platforms: [:mingw, :mswin, :x64_mingw, :jruby]
