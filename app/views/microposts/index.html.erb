@@ -34,9 +34,9 @@
   <div style = "display: inline; position: relative;">
     <a>Filter by: </a>
     <a href="/microposts">All</a>
-    <a><%= link_to "Open", microposts_url(status: "Open")%></a>
-    <a href="/microposts">My issues</a>
-     <a href="/microposts">Watching</a>
+    <a><%= link_to "Open", microposts_url(status: "New&Open")%></a>
+    <a><%= link_to "My issues", microposts_url(assignee: current_user.id)%></a>
+    <a><%= link_to "Watching", microposts_url(watcher: current_user.id)%></a>
   </div>
 
   <table id = "myTable">
@@ -56,7 +56,7 @@
         <th onclick="sortTable(2)">P</th>
         <th onclick="sortTable(3)">Status</th>
         <th onclick="sortTable(4)">Votes</th>
-        <th >Assignee</th>
+        <th onclick="sortTable(5)">Assignee</th>
         <th onclick="sortTable(6)"> Created</th>
         <th onclick="sortTable(7)">Updated</th>
         <th colspan="1"></th>
@@ -78,6 +78,11 @@
           <% end %>
           <td><%= time_ago_in_words(micropost.created_at) + " ago" %></td>
           <td><%= time_ago_in_words(micropost.updated_at) + " ago" %></td>
+          <% if !Watcher.exists?(:micropost_id => micropost.id, :user_id => current_user.id) %>
+            <td><%= link_to 'Watch', watch_url(id: micropost.id, view: "micropost"), method: :post, class: "vote" %></td>
+          <% else %>
+            <td><%= link_to 'Unwatch', watch_url(id: micropost.id, view: "micropost"), method: :post, class: "vote" %></td>
+          <% end %>
           
           <% if false %>
             <td><%= link_to 'Show', micropost %></td>

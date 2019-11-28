@@ -32,7 +32,7 @@ class MicropostsController < ApplicationController
     
     if params.has_key?(:watcher)
         if User.exists?(id: params[:watcher])
-          @microposts = Micropost.joins(:watchers).where(watchers:{user_id: params[:watcher]})
+          @microposts = Micropost.includes(:Watchers).where(watchers:{user_id: params[:watcher]})
         else
           format.json {render json: {"error":"User with id="+params[:watcher]+" does not exist"}, status: :unprocessable_entity}
         end
@@ -66,6 +66,7 @@ class MicropostsController < ApplicationController
   def create
     @micropost = Micropost.new(micropost_params)
     @micropost.user_id = current_user.id
+    @micropost.assignee_id = current_user.id
     respond_to do |format|
       if @micropost.save
         @watcher = Watcher.new
@@ -110,7 +111,7 @@ class MicropostsController < ApplicationController
         @vote.destroy
         @issue_to_vote.decrement!(:votes)
       end
-      format.html { redirect_to @issue_to_vote }
+      format.html {redirect_to request.referrer}
       format.json { render json: @issue_to_vote, status: :ok }
     end
   end
@@ -129,11 +130,7 @@ class MicropostsController < ApplicationController
         @watcher.destroy
         @issue_to_watch.decrement!("watchers")
       end
-      if params[:view] == "index"
-        format.html { redirect_to issues_url}
-      else
-        format.html { redirect_to @issue_to_watch}
-      end
+      format.html {redirect_to request.referrer}
       format.json { render json: @issue_to_watch, status: :ok }
     end
   end
@@ -172,6 +169,6 @@ class MicropostsController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def micropost_params
-      params.require(:micropost).permit(:title, :description, :type_issue, :priority, things: [])
+      params.require(:micropost).permit(:title, :description, :type_issue, :priority, :assignee_id, things: [])
     end
 end
