@@ -87,7 +87,14 @@ class MicropostsController < ApplicationController
   # PATCH/PUT /microposts/1.json
   def update
     respond_to do |format|
-      if @micropost.update(micropost_params)
+      if micropost_params.has_key?(:body)
+        @comment = Comment.new
+        @comment.body = micropost_params[:body]
+        @comment.micropost_id = @micropost.id
+        @comment.user_id = current_user.id
+        @comment.save
+      end
+      if @micropost.update(micropost_params.except(:body))
         format.html { redirect_to @micropost, notice: 'Micropost was successfully updated.' }
         format.json { render :show, status: :ok, location: @micropost }
       else
@@ -169,6 +176,6 @@ class MicropostsController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def micropost_params
-      params.require(:micropost).permit(:title, :description, :type_issue, :priority, :assignee_id, things: [])
+      params.require(:micropost).permit(:title, :description, :type_issue, :priority, :assignee_id, :body, things: [])
     end
 end
