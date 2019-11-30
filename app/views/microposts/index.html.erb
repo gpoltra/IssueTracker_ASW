@@ -26,7 +26,9 @@
   <div style="position: relative;" class="header">
     <h1>Issues</h1>
     <div style="position: absolute; top: 0; right: 0;">
-      <%= link_to 'Create issue', new_micropost_path %>
+      <% if current_user != nil %>
+        <%= link_to 'Create issue', new_micropost_path %>
+      <% end %>
        <input type="text" id="myInput" onkeyup="search()" placeholder="Find issues">
     </div>
   </div>
@@ -35,8 +37,13 @@
     <a>Filter by: </a>
     <a href="/microposts">All</a>
     <a><%= link_to "Open", microposts_url(status: "New&Open")%></a>
-    <a><%= link_to "My issues", microposts_url(assignee: current_user.id)%></a>
-    <a><%= link_to "Watching", microposts_url(watcher: current_user.id)%></a>
+    <% if current_user != nil %>
+      <a><%= link_to "My issues", microposts_url(assignee: current_user.id)%></a>
+      <a><%= link_to "Watching", microposts_url(watcher: current_user.id)%></a>
+    <% else %>
+      <a>My Issues</a>
+      <a>Watching</a>
+    <% end %>
   </div>
 
   <table id = "myTable">
@@ -78,10 +85,12 @@
           <% end %>
           <td><%= time_ago_in_words(micropost.created_at) + " ago" %></td>
           <td><%= time_ago_in_words(micropost.updated_at) + " ago" %></td>
-          <% if !Watcher.exists?(:micropost_id => micropost.id, :user_id => current_user.id) %>
-            <td><%= link_to 'Watch', watch_url(id: micropost.id, view: "micropost"), method: :post, class: "vote" %></td>
-          <% else %>
-            <td><%= link_to 'Unwatch', watch_url(id: micropost.id, view: "micropost"), method: :post, class: "vote" %></td>
+          <% if current_user != nil %>
+            <% if !Watcher.exists?(:micropost_id => micropost.id, :user_id => current_user.id) %>
+              <td><%= link_to 'Watch', watch_url(id: micropost.id, view: "micropost"), method: :post, class: "vote" %></td>
+            <% else %>
+              <td><%= link_to 'Unwatch', watch_url(id: micropost.id, view: "micropost"), method: :post, class: "vote" %></td>
+            <% end %>
           <% end %>
           
           <% if false %>
