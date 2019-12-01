@@ -1,6 +1,6 @@
 class UsersController < ApplicationController
   protect_from_forgery
-  
+  include Swagger::Blocks
   before_action :set_user, only: [:show, :edit, :update, :destroy]
 
   # GET /users

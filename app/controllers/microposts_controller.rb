@@ -1,5 +1,6 @@
 class MicropostsController < ApplicationController
   before_action :set_micropost, only: [:show, :edit, :update, :destroy]
+  include Swagger::Blocks
 
   # GET /microposts
   # GET /microposts.json
@@ -178,4 +179,37 @@ class MicropostsController < ApplicationController
     def micropost_params
       params.require(:micropost).permit(:title, :description, :type_issue, :priority, :assignee_id, :body, things: [])
     end
+    
+    
+    #--------------------SWAGGGER API-------------------------
+    
+    swagger_path '/microposts' do
+    operation :get do
+      key :summary, 'All Issues'
+      key :description, 'Returns all issues from the system that the user has access to'
+      key :operationId, 'findIssues'
+      key :produces, [
+        'application/json',
+        'text/html',
+      ]
+      key :tags, [
+        'issue'
+      ]
+      response 200 do
+        key :description, 'issue response'
+        schema do
+          key :type, :array
+          items do
+            key :'$ref', :microposts
+          end
+        end
+      end
+      response :default do
+        key :description, 'unexpected error'
+        schema do
+          key :'$ref', :ErrorModel
+        end
+      end
+    end
+  end
 end
