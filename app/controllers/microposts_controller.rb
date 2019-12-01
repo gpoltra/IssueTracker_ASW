@@ -15,18 +15,18 @@ class MicropostsController < ApplicationController
     end
     
     if params.has_key?(:type_issue)
-        @microposts = @microposts.where(Type_issue: params[:type_issue])
+        @microposts = @microposts.where(type_issue: params[:type_issue])
     end
     
     if params.has_key?(:priority)
-        @microposts = @microposts.where(Priority: params[:priority])
+        @microposts = @microposts.where(priority: params[:priority])
     end
     
     if params.has_key?(:status)
         if params[:status] == "New&Open"
-          @microposts = @microposts.where(Status: ["Open","New"])
+          @microposts = @microposts.where(status: ["Open","New"])
         else
-          @microposts = @microposts.where(Status: params[:status])
+          @microposts = @microposts.where(status: params[:status])
         end
     end
     
