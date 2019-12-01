@@ -144,7 +144,9 @@
     <% end %>
     <%= time_ago_in_words(comment.created_at) + " ago" %>
     <% end %>
-  <%= render 'comment_form', micropost: @micropost %>
+  <% if logged_in? %>
+    <%= render 'comment_form', micropost: @micropost %>
+  <% end %>
 </div>
 
 
