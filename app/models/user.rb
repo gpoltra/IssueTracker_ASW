@@ -30,7 +30,7 @@ class User < ApplicationRecord
   #API KEY
   def generate_api_key
     begin
-      self.api_key = ofAC6rmhrV2pzizzCfKV
+      self.api_key = SecureRandom.hex
     end while self.class.exists?(api_key: api_key)
   end
   before_create do |doc|
