@@ -4,43 +4,44 @@ class MicropostsController < ApplicationController
   # GET /microposts
   # GET /microposts.json
   def index
-    @microposts = Micropost.all
-    
-    if params.has_key?(:assignee)
-        if User.exists?(id: params[:assignee])
-          @microposts = @microposts.where(assignee_id: params[:assignee])
-        else
-          format.json {render json: {"error":"User with id="+params[:assignee]+" does not exist"}, status: :unprocessable_entity}
-        end
+    respond_to do |format|
+      @microposts = Micropost.all
+      
+      if params.has_key?(:assignee)
+          if User.exists?(id: params[:assignee])
+            @microposts = @microposts.where(assignee_id: params[:assignee])
+          else
+            format.json {render json: {"error":"User with id="+params[:assignee]+" does not exist"}, status: :unprocessable_entity}
+          end
+      end
+      
+      if params.has_key?(:type_issue)
+          @microposts = @microposts.where(type_issue: params[:type_issue])
+      end
+      
+      if params.has_key?(:priority)
+          @microposts = @microposts.where(priority: params[:priority])
+      end
+      
+      if params.has_key?(:status)
+          if params[:status] == "New&Open"
+            @microposts = @microposts.where(status: ["Open","New"])
+          else
+            @microposts = @microposts.where(status: params[:status])
+          end
+      end
+      
+      if params.has_key?(:watcher)
+          if User.exists?(id: params[:watcher])
+            @microposts = Micropost.includes(:Watchers).where(watchers:{user_id: params[:watcher]})
+          else
+            format.json {render json: {"error":"User with id="+params[:watcher]+" does not exist"}, status: :unprocessable_entity}
+          end
+      end
+      
+      format.html
+      format.json {render json: @microposts}
     end
-    
-    if params.has_key?(:type_issue)
-        @microposts = @microposts.where(type_issue: params[:type_issue])
-    end
-    
-    if params.has_key?(:priority)
-        @microposts = @microposts.where(priority: params[:priority])
-    end
-    
-    if params.has_key?(:status)
-        if params[:status] == "New&Open"
-          @microposts = @microposts.where(status: ["Open","New"])
-        else
-          @microposts = @microposts.where(status: params[:status])
-        end
-    end
-    
-    if params.has_key?(:watcher)
-        if User.exists?(id: params[:watcher])
-          @microposts = Micropost.includes(:Watchers).where(watchers:{user_id: params[:watcher]})
-        else
-          format.json {render json: {"error":"User with id="+params[:watcher]+" does not exist"}, status: :unprocessable_entity}
-        end
-    end
-    
-    format.html
-    format.json {render json: @microposts}
-    
   end
 
   # GET /microposts/1
