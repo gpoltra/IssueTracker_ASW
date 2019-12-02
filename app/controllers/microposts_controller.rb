@@ -48,7 +48,7 @@ class MicropostsController < ApplicationController
   def show
     respond_to do |format|
       format.html
-      format.json {render json: @issue, status: :ok, serializer: IssueSerializer}
+      format.json {render json: @issue, status: :ok, serializer: IssueTracker}
     end
   end
 
