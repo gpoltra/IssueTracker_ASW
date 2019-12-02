@@ -5,7 +5,6 @@ class Micropost < ApplicationRecord
   has_many :Votes, dependent: :destroy
   has_many :Watchers, dependent: :destroy
   has_many_attached :things, dependent: :destroy
-  validates :description, presence: true, length: { maximum: 140 }
   
   def self.status
     ["New", "Open", "On hold", "Resolved", "Duplicate", "Invalid", "Won't fix", "Closed"]
