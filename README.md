@@ -1,4 +1,4 @@
-# README
+# ASW - IssueTracker
 
 Ballber Balagueró, Pau  
 Batlle Ginesta, Laia  
