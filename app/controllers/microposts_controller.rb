@@ -1,5 +1,6 @@
 class MicropostsController < ApplicationController
   before_action :set_micropost, only: [:show, :edit, :update, :destroy]
+  before_action :authenticate
 
   # GET /microposts
   # GET /microposts.json
@@ -166,6 +167,15 @@ class MicropostsController < ApplicationController
     respond_to do |format|
       format.html { redirect_to microposts_url, notice: 'Micropost was successfully destroyed.' }
       format.json { head :no_content }
+    end
+  end
+  
+  def authenticate
+    api_key = request.headers['X-Api-Key']
+    @user = User.where(api_key: api_key).first if api_key
+    unless @user
+      head :unauthorized
+      return false
     end
   end
 
