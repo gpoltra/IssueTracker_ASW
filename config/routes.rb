@@ -13,7 +13,6 @@ Rails.application.routes.draw do
   # For details on the DSL available within this file, see https://guides.rubyonrails.org/routing.html
   root 'users#new'
   
-  get '/microposts/:id/attachment' => "microposts#show_attachment"
   post '/microposts/:id/vote' => "microposts#vote", as: :vote
   post '/microposts/:id/watch' => "microposts#watch", as: :watch
   put '/microposts/:id/status' => "microposts#update_status", as: :update_status
