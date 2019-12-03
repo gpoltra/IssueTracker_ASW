@@ -90,11 +90,13 @@ class MicropostsController < ApplicationController
   def update
     respond_to do |format|
       if micropost_params.has_key?(:body)
-        @comment = Comment.new
-        @comment.body = micropost_params[:body]
-        @comment.micropost_id = @micropost.id
-        @comment.user_id = current_user.id
-        @comment.save
+        if (!micropost_params[:body].empty?)
+          @comment = Comment.new
+          @comment.body = micropost_params[:body]
+          @comment.micropost_id = @micropost.id
+          @comment.user_id = current_user.id
+          @comment.save
+        end
       end
       if @micropost.update(micropost_params.except(:body))
         format.html { redirect_to @micropost, notice: 'Micropost was successfully updated.' }
