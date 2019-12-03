@@ -73,16 +73,6 @@ class UsersController < ApplicationController
     end
   end
   
-  def obtain_current_user
-    respond_to do |format|
-      if (!current_user.nil?) 
-        @user = current_user
-        format.html
-        format.json {render json: @user, status: :ok}
-      end
-    end
-  end
-  
   private
     # Use callbacks to share common setup or constraints between actions.
     def set_user
