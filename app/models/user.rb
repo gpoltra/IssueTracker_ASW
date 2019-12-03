@@ -26,4 +26,13 @@ class User < ApplicationRecord
   def clear_password
     self.password = nil
   end
+  
+  #API KEY
+  def generate_api_key
+    begin
+      self.api_key = SecureRandom.hex
+    end while self.class.exists?(api_key: api_key)
+  end
+  before_create :generate_api_key
+ 
 end
