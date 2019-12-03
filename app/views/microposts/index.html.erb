@@ -78,7 +78,7 @@
           <td><%= link_to micropost.type_issue , microposts_url(type_issue: micropost.type_issue), class:"btn-link" %></td>
           <td><%= link_to micropost.priority , microposts_url(priority: micropost.priority), class:"btn-link" %></td>
           <td><%= link_to micropost.status, microposts_url(status: micropost.status), class:"btn-link" %></td>
-          <td><%= micropost.votes %></td>
+          <td><%= micropost.Votes %></td>
           <% if !micropost.assignee.nil? %>
             <td><%= link_to micropost.assignee.name, microposts_url(assignee: micropost.assignee.id), class:"btn-link" %></td>
           <% else %>

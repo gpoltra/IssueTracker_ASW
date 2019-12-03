@@ -82,7 +82,7 @@
 
     <p>
       <strong>Votes</strong>
-      <%= @micropost.votes %>
+      <%= @micropost.Votes %>
       <% if current_user != nil %>
         <% if !Vote.exists?(:micropost_id => @micropost.id, :user_id => current_user.id) %>
           <%= link_to 'Vote for this issue', vote_url(id: @micropost.id), method: :post, class:"vote" %>
@@ -93,7 +93,7 @@
     </p>
     <p style="padding-right: 10px;">
       <strong>Watchers</strong>
-      <%= @micropost.watchers %>
+      <%= @micropost.Watchers %>
       <% if current_user != nil %>
         <% if !Watcher.exists?(:micropost_id => @micropost.id, :user_id => current_user.id) %>
           <%= link_to 'Watch this issue', watch_url(id: @micropost.id, view: "micropost"), method: :post, class: "vote" %>

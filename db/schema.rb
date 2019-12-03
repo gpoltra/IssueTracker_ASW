@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_12_03_154355) do
+ActiveRecord::Schema.define(version: 2019_12_03_185648) do
 
   create_table "active_storage_attachments", force: :cascade do |t|
     t.string "name", null: false
@@ -54,8 +54,8 @@ ActiveRecord::Schema.define(version: 2019_12_03_154355) do
     t.string "type_issue"
     t.integer "assignee_id"
     t.string "status", default: "New"
-    t.integer "votes", default: 0
-    t.integer "watchers", default: 0
+    t.integer "Votes", default: 0
+    t.integer "Watchers", default: 0
     t.index ["user_id"], name: "index_microposts_on_user_id"
   end
 

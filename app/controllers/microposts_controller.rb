@@ -34,7 +34,7 @@ class MicropostsController < ApplicationController
       
       if params.has_key?(:watcher)
           if User.exists?(id: params[:watcher])
-            @microposts = Micropost.includes(:Watchers).where(watchers:{user_id: params[:watcher]})
+            @microposts = Micropost.includes(:watchers).where(watchers:{user_id: params[:watcher]})
           else
             format.json {render json: {"error":"User with id="+params[:watcher]+" does not exist"}, status: :unprocessable_entity}
           end
@@ -75,7 +75,7 @@ class MicropostsController < ApplicationController
         @watcher.user_id = current_user.id
         @watcher.micropost_id = @micropost.id
         @watcher.save
-        @micropost.increment!("watchers")
+        @micropost.increment!("Watchers")
         format.html { redirect_to @micropost, notice: 'Micropost was successfully created.' }
         format.json { render :show, status: :created, location: @micropost }
       else
@@ -114,11 +114,11 @@ class MicropostsController < ApplicationController
         @vote.user_id = current_user.id
         @vote.micropost_id = @issue_to_vote.id
         @vote.save
-        @issue_to_vote.increment!(:votes)
+        @issue_to_vote.increment!(:Votes)
       else
         @vote = Vote.where(micropost_id: params[:id], user_id: current_user.id).take
         @vote.destroy
-        @issue_to_vote.decrement!(:votes)
+        @issue_to_vote.decrement!(:Votes)
       end
       format.html {redirect_to request.referrer}
       format.json { render json: @issue_to_vote, status: :ok }
@@ -133,11 +133,11 @@ class MicropostsController < ApplicationController
         @watcher.user_id = current_user.id
         @watcher.micropost_id = @issue_to_watch.id
         @watcher.save
-        @issue_to_watch.increment!("watchers")
+        @issue_to_watch.increment!("Watchers")
       else
         @watcher = Watcher.where(micropost_id: params[:id], user_id: current_user.id).take
         @watcher.destroy
-        @issue_to_watch.decrement!("watchers")
+        @issue_to_watch.decrement!("Watchers")
       end
       format.html {redirect_to request.referrer}
       format.json { render json: @issue_to_watch, status: :ok }
