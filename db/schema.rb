@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_12_02_221552) do
+ActiveRecord::Schema.define(version: 2019_12_03_154355) do
 
   create_table "active_storage_attachments", force: :cascade do |t|
     t.string "name", null: false
@@ -45,7 +45,6 @@ ActiveRecord::Schema.define(version: 2019_12_02_221552) do
   end
 
   create_table "microposts", force: :cascade do |t|
-    t.text "content"
     t.integer "user_id"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
@@ -57,10 +56,6 @@ ActiveRecord::Schema.define(version: 2019_12_02_221552) do
     t.string "status", default: "New"
     t.integer "votes", default: 0
     t.integer "watchers", default: 0
-    t.string "attachment_file_name"
-    t.string "attachment_content_type"
-    t.integer "attachment_file_size"
-    t.datetime "attachment_updated_at"
     t.index ["user_id"], name: "index_microposts_on_user_id"
   end
 
