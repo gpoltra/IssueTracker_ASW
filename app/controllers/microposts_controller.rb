@@ -1,6 +1,5 @@
 class MicropostsController < ApplicationController
   before_action :set_micropost, only: [:show, :edit, :update, :destroy]
-  before_action :authenticate
 
   # GET /microposts
   # GET /microposts.json
@@ -163,19 +162,11 @@ class MicropostsController < ApplicationController
   # DELETE /microposts/1
   # DELETE /microposts/1.json
   def destroy
-    @micropost.destroy
+    @issue = Micropost.find(params[:id])
+    @issue.destroy
     respond_to do |format|
-      format.html { redirect_to microposts_url, notice: 'Micropost was successfully destroyed.' }
-      format.json { head :no_content }
-    end
-  end
-  
-  def authenticate
-    api_key = request.headers['X-Api-Key']
-    @user = User.where(api_key: api_key).first if api_key
-    unless @user
-      head :unauthorized
-      return false
+      format.html { redirect_to issues_url, notice: 'The issue was successfully destroyed.' }
+      format.json { render json: {"message": "success"}, status: :ok }
     end
   end
 
