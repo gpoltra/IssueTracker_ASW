@@ -12,7 +12,6 @@ gem 'bootsnap',   '1.4.4'
 gem 'bcrypt-ruby', :require => 'bcrypt' 
 gem 'omniauth-google-oauth2'
 gem 'rack-cors'
-gem 'rswag'
 
 group :development, :test do
   gem 'sqlite3', '1.4.1'

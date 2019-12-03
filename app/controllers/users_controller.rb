@@ -9,7 +9,7 @@ class UsersController < ApplicationController
     respond_to do |format|
       @users = User.all
       format.html
-      format.json {render json: @users, status: :ok, each_serializer: UserindexSerializer}
+      format.json {render json: @users}
     end
   end
 
@@ -18,7 +18,7 @@ class UsersController < ApplicationController
   def show
     respond_to do |format|
       format.html
-      format.json {render json: @user, status: :ok, serializer: UserSerializer}
+      format.json {render json: @user}
     end
   end
   
