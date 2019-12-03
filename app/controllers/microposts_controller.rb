@@ -183,7 +183,7 @@ class MicropostsController < ApplicationController
   def show_attachment
     @micropost = Micropost.find(params[:id])
     respond_to do |format|
-      if @issue.things.attached?
+      if @micropost.things.attached?
           format.json {render json: @micropost.things}
       else
         format.json {render json: {}, status: :ok}
