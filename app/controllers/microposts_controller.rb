@@ -175,7 +175,7 @@ class MicropostsController < ApplicationController
     api_key = request.headers['X-Api-Key']
     @user = User.where(api_key: api_key).first if api_key
     unless @user
-      head :unauthorized
+      #head :unauthorized
       return false
     end
   end
