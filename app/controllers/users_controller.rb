@@ -75,9 +75,11 @@ class UsersController < ApplicationController
   
   def obtain_current_user
     respond_to do |format|
-      @user = current_user
-      format.html
-      format.json {render json: @user, status: :ok}
+      if (!current_user.nil?) 
+        @user = current_user
+        format.html
+        format.json {render json: @user, status: :ok}
+      end
     end
   end
   
