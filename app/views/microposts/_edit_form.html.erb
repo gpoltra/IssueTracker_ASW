@@ -22,7 +22,7 @@
   <div class="reporter" style="margin: 0 0 20px 15px">
     Reporter
     <% options = options_from_collection_for_select(User.all, 'id', 'name')%>
-    <%= form.select :assignee_id, options, {:include_blank => 'No assigned user'} %>
+    <%= form.select :assignee_id, options, {:include_blank => 'No assigned user'}%>
   </div>
   
   <div class="input-group" style="margin: 0 0 20px 36px">
