@@ -4,7 +4,7 @@ class CommentsController < ApplicationController
     @micropost = Micropost.find(params[:micropost_id])
     comments = @micropost.comments
     respond_to do |format|
-      format.json {render json: comments, status: :ok, each_serializer: CommentSerializer}
+      format.json {render json: comments, status: :ok}
     end
   end
 
@@ -14,7 +14,7 @@ class CommentsController < ApplicationController
     @micropost = Micropost.find(params[:micropost_id])
     @comment = @micropost.comments.find(params[:id])
     respond_to do |format|
-      format.json {render json: @comment, status: :ok, each_serializer: CommentSerializer}
+      format.json {render json: @comment, status: :ok}
     end
   end
 
@@ -38,7 +38,7 @@ class CommentsController < ApplicationController
     @comment.user_id = current_user.id
     @comment.save
     respond_to do |format|
-      format.json {render json: @comment, status: :created, each_serializer: CommentSerializer}
+      format.json {render json: @comment, status: :created}
       format.html {redirect_to request.referrer}
     end
   end
