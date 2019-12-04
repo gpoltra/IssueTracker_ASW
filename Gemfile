@@ -9,6 +9,7 @@ gem 'turbolinks', '5.2.0'
 gem 'jbuilder',   '2.9.1'
 gem 'bootsnap',   '1.4.4'
 
+gem 'simple_token_authentication', '~> 1.0' # see semver.org
 gem 'bcrypt-ruby', :require => 'bcrypt' 
 gem 'omniauth-google-oauth2'
 gem 'rack-cors'
