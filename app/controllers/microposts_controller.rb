@@ -1,6 +1,7 @@
 class MicropostsController < ApplicationController
   before_action :set_micropost, only: [:show, :edit, :update, :destroy]
   before_action :authenticate
+  protect_from_forgery
   
   # GET /microposts
   # GET /microposts.json
@@ -174,14 +175,14 @@ class MicropostsController < ApplicationController
   end
   
   def authenticate
+    if(!logged_in?)
       api_key = request.headers['X-Api-Key']
       @user = User.where(api_key: api_key).first if api_key
       unless @user
-          if(!logged_in?)
-            head :unauthorized
-          end
+          head :unauthorized
         return false
       end
+    end
   end
 
   private
