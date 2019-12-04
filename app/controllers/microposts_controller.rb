@@ -174,7 +174,7 @@ class MicropostsController < ApplicationController
   end
   
   def authenticate
-    if (current_user.nil?)
+    if ((request.headers['User-Agent']).include?('swagger'))
       api_key = request.headers['X-Api-Key']
       @user = User.where(api_key: api_key).first if api_key
       unless @user
