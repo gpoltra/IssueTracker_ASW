@@ -268,7 +268,14 @@ paths:
       tags:
       - Vote
       description: Votes or unvotes the isseue with the ID issue_id as the current authenticated user
+      consumes:
+      - application/x-www-form-urlencoded
       parameters:
+      - name: user_id
+        in: formData
+        description: ID of user creating the Issue
+        required: true
+        type: integer
       - name: id
         in: path
         description: ID of the issue to vote/unvote
@@ -291,7 +298,14 @@ paths:
       tags:
       - Watch
       description: Watch or unwatch the isseue with the ID issue_id as the current authenticated user
+      consumes:
+      - application/x-www-form-urlencoded
       parameters:
+      - name: user_id
+        in: formData
+        description: ID of user creating the Issue
+        required: true
+        type: integer
       - name: id
         in: path
         description: ID of the issue to watch/unwatch
@@ -344,6 +358,11 @@ paths:
       consumes:
       - application/x-www-form-urlencoded
       parameters:
+      - name: user_id
+        in: formData
+        description: ID of user creating the Issue
+        required: true
+        type: integer
       - name: id
         in: path
         description: ID of an Issue
@@ -494,39 +513,6 @@ paths:
         - Invalid
         - Won't fix
         - Closed
-      responses:
-        "200":
-          description: Success
-        "401":
-          description: API key is missing or invalid
-          headers:
-            WWW_Authenticate:
-              type: string
-  /microposts/{id}/type_issue:
-    put:
-      tags:
-      - Issues
-      description: Updates type of an 'Issue'
-      consumes:
-      - application/x-www-form-urlencoded
-      produces:
-      - application/json
-      parameters:
-      - name: id
-        in: path
-        description: ID of an Issue
-        required: true
-        type: integer
-      - name: type
-        in: formData
-        description: Type of the issue
-        required: true
-        type: string
-        enum:
-        - bug
-        - enhancement
-        - proposal
-        - task
       responses:
         "200":
           description: Success
