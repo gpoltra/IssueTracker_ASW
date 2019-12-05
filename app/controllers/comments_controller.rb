@@ -64,15 +64,23 @@ class CommentsController < ApplicationController
   def destroy
     @micropost = Micropost.find(params[:micropost_id])
     @comment = @micropost.comments.find(params[:id])
-    if @comment.user_id == current_user.id
-      @comment.destroy
-    end
-    respond_to do |format|
+    if (logged_in?)
       if @comment.user_id == current_user.id
+        @comment.destroy
+      end
+      respond_to do |format|
+        if @comment.user_id == current_user.id
+          format.json {render json: {}, status: :ok}
+          format.html {redirect_to request.referrer}
+        else
+          format.json {render json: {error: "Forbidden, you are not the creator of this comment"}, status: :forbidden}
+        end
+      end
+    else
+      @comment.destroy
+      respond_to do |format|
         format.json {render json: {}, status: :ok}
         format.html {redirect_to request.referrer}
-      else
-        format.json {render json: {error: "Forbidden, you are not the creator of this comment"}, status: :forbidden}
       end
     end
   end
@@ -85,6 +93,6 @@ class CommentsController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def comment_params
-      params.require(:comment).permit(:body)
+      params.require(:comment).permit(:body, :user_id)
     end
 end
