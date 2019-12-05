@@ -154,19 +154,35 @@ class MicropostsController < ApplicationController
   def watch
     respond_to do |format|
       @issue_to_watch = Micropost.find(params[:id])
-      if !Watcher.exists?(:micropost_id => @issue_to_watch.id, :user_id => current_user.id)
-        @watcher = Watcher.new
-        @watcher.user_id = current_user.id
-        @watcher.micropost_id = @issue_to_watch.id
-        @watcher.save
-        @issue_to_watch.increment!("Watchers")
-      else
-        @watcher = Watcher.where(micropost_id: params[:id], user_id: current_user.id).take
-        @watcher.destroy
-        @issue_to_watch.decrement!("Watchers")
+      if (logged_in?)
+        if !Watcher.exists?(:micropost_id => @issue_to_watch.id, :user_id => current_user.id)
+          @watcher = Watcher.new
+          @watcher.user_id = current_user.id
+          @watcher.micropost_id = @issue_to_watch.id
+          @watcher.save
+          @issue_to_watch.increment!("Watchers")
+        else
+          @watcher = Watcher.where(micropost_id: params[:id], user_id: current_user.id).take
+          @watcher.destroy
+          @issue_to_watch.decrement!("Watchers")
+        end
+        format.html {redirect_to request.referrer}
+        format.json { render json: @issue_to_watch, status: :ok }
+      else 
+        if !Watcher.exists?(:micropost_id => @issue_to_watch.id, :user_id => params[:user_id])
+          @watcher = Watcher.new
+          @watcher.user_id = params[:user_id]
+          @watcher.micropost_id = @issue_to_watch.id
+          @watcher.save
+          @issue_to_watch.increment!("Watchers")
+        else
+          @watcher = Watcher.where(micropost_id: params[:id], user_id: params[:user_id]).take
+          @watcher.destroy
+          @issue_to_watch.decrement!("Watchers")
+        end
+        format.html {redirect_to request.referrer}
+        format.json { render json: @issue_to_watch, status: :ok }
       end
-      format.html {redirect_to request.referrer}
-      format.json { render json: @issue_to_watch, status: :ok }
     end
   end
   
