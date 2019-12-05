@@ -68,8 +68,10 @@ class MicropostsController < ApplicationController
   # POST /microposts.json
   def create
     @micropost = Micropost.new(micropost_params)
-    @micropost.user_id = current_user.id
-    @micropost.assignee_id = current_user.id
+    if(logged_in?)
+      @micropost.user_id = current_user.id
+      @micropost.assignee_id = current_user.id
+    end
     respond_to do |format|
       if @micropost.save
         @watcher = Watcher.new
@@ -194,6 +196,6 @@ class MicropostsController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def micropost_params
-      params.require(:micropost).permit(:title, :description, :type_issue, :priority, :assignee_id, :body, things: [])
+      params.require(:micropost).permit(:user_id, :title, :description, :type_issue, :priority, :assignee_id, :body, things: [])
     end
 end
