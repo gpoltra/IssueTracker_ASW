@@ -77,21 +77,11 @@ class CommentsController < ApplicationController
         end
       end
     else
-      if (comment_params.has_key?(:user_id))
-        if (@comment.user_id == comment_params[:user_id])
           @comment.destroy
           respond_to do |format|
             format.json {render json: {"message": "Delete success"}, status: :ok}
             format.html {redirect_to request.referrer}
           end
-        end
-        respond_to do |format|
-          format.json {render json: {}, status: :forbidden}
-          format.html {redirect_to request.referrer}
-        end
-      end
-      format.json {render json: {}, status: :unprocessable_entity}
-      format.html {redirect_to request.referrer}
     end
   end
 
@@ -103,6 +93,6 @@ class CommentsController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def comment_params
-      params.require(:comment).permit(:body, :user_id)
+      params.require(:comment).permit(:body)
     end
 end
