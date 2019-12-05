@@ -119,19 +119,35 @@ class MicropostsController < ApplicationController
   def vote
     respond_to do |format|
       @issue_to_vote = Micropost.find(params[:id])
-      if !Vote.exists?(:micropost_id => @issue_to_vote.id, :user_id => current_user.id)
-        @vote = Vote.new
-        @vote.user_id = current_user.id
-        @vote.micropost_id = @issue_to_vote.id
-        @vote.save
-        @issue_to_vote.increment!(:Votes)
+      if (logged_in?)
+        if !Vote.exists?(:micropost_id => @issue_to_vote.id, :user_id => current_user.id)
+          @vote = Vote.new
+          @vote.user_id = current_user.id
+          @vote.micropost_id = @issue_to_vote.id
+          @vote.save
+          @issue_to_vote.increment!(:Votes)
+        else
+          @vote = Vote.where(micropost_id: params[:id], user_id: current_user.id).take
+          @vote.destroy
+          @issue_to_vote.decrement!(:Votes)
+        end
+        format.html {redirect_to request.referrer}
+        format.json { render json: @issue_to_vote, status: :ok }
       else
-        @vote = Vote.where(micropost_id: params[:id], user_id: current_user.id).take
-        @vote.destroy
-        @issue_to_vote.decrement!(:Votes)
+        if !Vote.exists?(:micropost_id => @issue_to_vote.id, :user_id => params[:user_id])
+          @vote = Vote.new
+          @vote.user_id = params[:user_id]
+          @vote.micropost_id = @issue_to_vote.id
+          @vote.save
+          @issue_to_vote.increment!(:Votes)
+        else
+          @vote = Vote.where(micropost_id: params[:id], user_id: params[:user_id]).take
+          @vote.destroy
+          @issue_to_vote.decrement!(:Votes)
+        end
+        format.html {redirect_to request.referrer}
+        format.json { render json: @issue_to_vote, status: :ok }
       end
-      format.html {redirect_to request.referrer}
-      format.json { render json: @issue_to_vote, status: :ok }
     end
   end
   
