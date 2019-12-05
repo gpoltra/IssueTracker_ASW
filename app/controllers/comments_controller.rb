@@ -77,9 +77,11 @@ class CommentsController < ApplicationController
         end
       end
     else
-      @comment.destroy
+      if (comment_params[:user_id] == @comment.user_id)
+        @comment.destroy
+      end
       respond_to do |format|
-        format.json {render json: {}, status: :ok}
+        format.json {render json: {"message": "Delete success"}, status: :ok}
         format.html {redirect_to request.referrer}
       end
     end
