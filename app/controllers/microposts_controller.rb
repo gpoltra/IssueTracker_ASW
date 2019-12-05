@@ -68,12 +68,16 @@ class MicropostsController < ApplicationController
   # POST /microposts.json
   def create
     @micropost = Micropost.new(micropost_params)
-    @micropost.user_id = current_user.id
-    @micropost.assignee_id = current_user.id
+    if (logged_in?)
+      @micropost.user_id = current_user.id
+      @micropost.assignee_id = current_user.id
+    end
     respond_to do |format|
       if @micropost.save
         @watcher = Watcher.new
-        @watcher.user_id = current_user.id
+        if (logged_in?)
+          @watcher.user_id = current_user.id
+        end
         @watcher.micropost_id = @micropost.id
         @watcher.save
         @micropost.increment!("Watchers")

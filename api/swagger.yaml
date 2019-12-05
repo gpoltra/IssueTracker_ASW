@@ -1,0 +1,684 @@
+---
+swagger: "2.0"
+info:
+  description: API for our Issue Tracker
+  version: 1.0.0
+  title: Issue Tracker ASW
+host: still-ridge-83597.herokuapp.com
+schemes:
+- https
+security:
+- APIKeyHeader: []
+paths:
+  /microposts:
+    get:
+      tags:
+      - Issues
+      description: Get all Issues.
+      produces:
+      - application/json
+      parameters:
+      - name: type_issue
+        in: query
+        description: Gets `Issue` objects by type
+        required: false
+        type: string
+        enum:
+        - bug
+        - enhancement
+        - proposal
+        - task
+      - name: priority
+        in: query
+        description: Gets `Issue` objects by priority
+        required: false
+        type: string
+        enum:
+        - trivial
+        - minor
+        - major
+        - critical
+        - blocker
+      - name: status
+        in: query
+        description: Gets `Issue` objects by status
+        required: false
+        type: string
+        enum:
+        - New
+        - Open
+        - On hold
+        - Resolved
+        - Duplicate
+        - Invalid
+        - Won't fix
+        - Closed
+        - New&Open
+      - name: assignee
+        in: query
+        description: Gets `Issue` objects by assignee
+        required: false
+        type: integer
+      - name: watcher
+        in: query
+        description: Gets `Issue` objects watched by a user
+        required: false
+        type: integer
+      responses:
+        "200":
+          description: Successful response
+          schema:
+            title: ArrayOfIssues
+            type: array
+            items:
+              $ref: '#/definitions/Micropost'
+        "401":
+          description: API key is missing or invalid
+          headers:
+            WWW_Authenticate:
+              type: string
+    post:
+      tags:
+      - Issues
+      description: Create new Issue
+      consumes:
+      - application/x-www-form-urlencoded
+      parameters:
+      - name: user_id
+        in: formData
+        description: ID of user creating the Issue
+        required: true
+        type: integer
+      - name: title
+        in: formData
+        description: Title for the issue
+        required: true
+        type: string
+      - name: description
+        in: formData
+        description: Description for the issue
+        required: false
+        type: string
+      - name: type_issue
+        in: formData
+        description: Type of the issue
+        required: true
+        type: string
+        enum:
+        - bug
+        - enhancement
+        - proposal
+        - task
+      - name: priority
+        in: formData
+        description: Priority of the issue
+        required: true
+        type: string
+        enum:
+        - trivial
+        - minor
+        - major
+        - critical
+        - blocker
+      - name: assignee_id
+        in: formData
+        description: Assignee ID for the issue
+        required: true
+        type: integer
+      - name: Comment
+        in: formData
+        description: Title for the issue
+        required: false
+        type: string
+      responses:
+        "201":
+          description: Created
+          schema:
+            $ref: '#/definitions/Micropost'
+        "401":
+          description: API key is missing or invalid
+          headers:
+            WWW_Authenticate:
+              type: string
+  /microposts/{id}:
+    get:
+      tags:
+      - Issues
+      description: Gets an `Issue` object by id
+      produces:
+      - application/json
+      parameters:
+      - name: id
+        in: path
+        description: ID of an Issue
+        required: true
+        type: integer
+      responses:
+        "200":
+          description: Success
+          schema:
+            $ref: '#/definitions/Micropost'
+        "401":
+          description: API key is missing or invalid
+          headers:
+            WWW_Authenticate:
+              type: string
+        "404":
+          description: Not found
+    put:
+      tags:
+      - Issues
+      description: Update an Issue
+      consumes:
+      - application/x-www-form-urlencoded
+      produces:
+      - application/json
+      parameters:
+      - name: id
+        in: path
+        description: ID of an Issue
+        required: true
+        type: integer
+      - name: title
+        in: formData
+        description: Title for the issue
+        required: true
+        type: string
+      - name: description
+        in: formData
+        description: Description for the issue
+        required: false
+        type: string
+      - name: status
+        in: formData
+        description: Status for the issue
+        required: true
+        type: string
+        enum:
+        - New
+        - Open
+        - On hold
+        - Resolved
+        - Duplicate
+        - Invalid
+        - Won't fix
+        - Closed
+      - name: priority
+        in: formData
+        description: Priority of the issue
+        required: true
+        type: string
+        enum:
+        - trivial
+        - minor
+        - major
+        - critical
+        - blocker
+      - name: type_issue
+        in: formData
+        description: Type of the issue
+        required: true
+        type: string
+        enum:
+        - bug
+        - ehancement
+        - proposal
+        - task
+      - name: assignee_id
+        in: formData
+        description: Assignee of the issue
+        required: false
+        type: integer
+      responses:
+        "201":
+          description: Updated
+          schema:
+            $ref: '#/definitions/Micropost'
+        "401":
+          description: API key is missing or invalid
+          headers:
+            WWW_Authenticate:
+              type: string
+    delete:
+      tags:
+      - Issues
+      description: Delete an `Issue` object
+      produces:
+      - application/json
+      parameters:
+      - name: id
+        in: path
+        description: ID of an Issue
+        required: true
+        type: integer
+      responses:
+        "200":
+          description: Success
+          schema:
+            $ref: '#/definitions/inline_response_200'
+        "401":
+          description: API key is missing or invalid
+          headers:
+            WWW_Authenticate:
+              type: string
+        "404":
+          description: Not found
+  /microposts/{id}/vote:
+    post:
+      tags:
+      - Vote
+      description: Votes or unvotes the isseue with the ID issue_id as the current authenticated user
+      parameters:
+      - name: id
+        in: path
+        description: ID of the issue to vote/unvote
+        required: true
+        type: integer
+      responses:
+        "200":
+          description: Success
+          schema:
+            $ref: '#/definitions/Micropost'
+        "401":
+          description: API key is missing or invalid
+          headers:
+            WWW_Authenticate:
+              type: string
+        "404":
+          description: Not found
+  /microposts/{id}/watch:
+    post:
+      tags:
+      - Watch
+      description: Watch or unwatch the isseue with the ID issue_id as the current authenticated user
+      parameters:
+      - name: id
+        in: path
+        description: ID of the issue to watch/unwatch
+        required: true
+        type: integer
+      responses:
+        "200":
+          description: Success
+          schema:
+            $ref: '#/definitions/Micropost'
+        "401":
+          description: API key is missing or invalid
+          headers:
+            WWW_Authenticate:
+              type: string
+        "404":
+          description: Not found
+  /microposts/{id}/comments:
+    get:
+      tags:
+      - Comments
+      description: Gets `Comment` objects from Issue
+      produces:
+      - application/json
+      parameters:
+      - name: id
+        in: path
+        description: ID of an Issue
+        required: true
+        type: integer
+      responses:
+        "200":
+          description: Successful response
+          schema:
+            title: ArrayOfComments
+            type: array
+            items:
+              $ref: '#/definitions/Comment'
+        "401":
+          description: API key is missing or invalid
+          headers:
+            WWW_Authenticate:
+              type: string
+        "404":
+          description: Not found
+    post:
+      tags:
+      - Comments
+      description: Creates a new `Comment` for an Issue
+      consumes:
+      - application/x-www-form-urlencoded
+      parameters:
+      - name: id
+        in: path
+        description: ID of an Issue
+        required: true
+        type: integer
+      - name: body
+        in: formData
+        description: Text of the comment
+        required: false
+        type: string
+      responses:
+        "201":
+          description: Created
+          schema:
+            $ref: '#/definitions/Comment'
+        "401":
+          description: API key is missing or invalid
+          headers:
+            WWW_Authenticate:
+              type: string
+  /microposts/{microposts_id}/comments/{id}:
+    get:
+      tags:
+      - Comments
+      description: Get a `Comment` object from Issue
+      produces:
+      - application/json
+      parameters:
+      - name: microposts_id
+        in: path
+        description: ID of an Issue
+        required: true
+        type: integer
+      - name: id
+        in: path
+        description: ID of a Comment
+        required: true
+        type: integer
+      responses:
+        "200":
+          description: Success
+          schema:
+            $ref: '#/definitions/Comment'
+        "401":
+          description: API key is missing or invalid
+          headers:
+            WWW_Authenticate:
+              type: string
+        "404":
+          description: Not found
+    put:
+      tags:
+      - Comments
+      description: Update a `Comment` object
+      consumes:
+      - application/x-www-form-urlencoded
+      produces:
+      - application/json
+      parameters:
+      - name: microposts_id
+        in: path
+        description: ID of an Issue
+        required: true
+        type: integer
+      - name: id
+        in: path
+        description: ID of a Comment
+        required: true
+        type: integer
+      - name: body
+        in: formData
+        description: Text of the Comment
+        required: false
+        type: string
+      responses:
+        "201":
+          description: Success
+          schema:
+            $ref: '#/definitions/Comment'
+        "401":
+          description: API key is missing or invalid
+          headers:
+            WWW_Authenticate:
+              type: string
+        "403":
+          description: You can't delete a Comment created by other users
+          schema:
+            $ref: '#/definitions/inline_response_403'
+        "404":
+          description: Not found
+    delete:
+      tags:
+      - Comments
+      description: Delete a `Comment` object
+      consumes:
+      - application/x-www-form-urlencoded
+      produces:
+      - application/json
+      parameters:
+      - name: microposts_id
+        in: path
+        description: ID of the Issue
+        required: true
+        type: integer
+      - name: id
+        in: path
+        description: ID of a Comment
+        required: true
+        type: integer
+      responses:
+        "200":
+          description: Success
+        "401":
+          description: API key is missing or invalid
+          headers:
+            WWW_Authenticate:
+              type: string
+        "403":
+          description: You can't delete a Comment created by another user
+        "404":
+          description: Not found
+  /microposts/{id}/status:
+    put:
+      tags:
+      - Issues
+      description: Updates status of an 'Issue'
+      consumes:
+      - application/x-www-form-urlencoded
+      produces:
+      - application/json
+      parameters:
+      - name: id
+        in: path
+        description: ID of an Issue
+        required: true
+        type: integer
+      - name: status
+        in: formData
+        description: Status for the issue
+        required: true
+        type: string
+        enum:
+        - New
+        - Open
+        - On hold
+        - Resolved
+        - Duplicate
+        - Invalid
+        - Won't fix
+        - Closed
+      responses:
+        "200":
+          description: Success
+        "401":
+          description: API key is missing or invalid
+          headers:
+            WWW_Authenticate:
+              type: string
+  /microposts/{id}/type_issue:
+    put:
+      tags:
+      - Issues
+      description: Updates type of an 'Issue'
+      consumes:
+      - application/x-www-form-urlencoded
+      produces:
+      - application/json
+      parameters:
+      - name: id
+        in: path
+        description: ID of an Issue
+        required: true
+        type: integer
+      - name: type
+        in: formData
+        description: Type of the issue
+        required: true
+        type: string
+        enum:
+        - bug
+        - enhancement
+        - proposal
+        - task
+      responses:
+        "200":
+          description: Success
+        "401":
+          description: API key is missing or invalid
+          headers:
+            WWW_Authenticate:
+              type: string
+  /users:
+    get:
+      tags:
+      - Users
+      description: Gets `User` objects.
+      produces:
+      - application/json
+      parameters: []
+      responses:
+        "200":
+          description: Success
+          schema:
+            title: ArrayOfUsers
+            type: array
+            items:
+              $ref: '#/definitions/User'
+        "401":
+          description: API key is missing or invalid
+          headers:
+            WWW_Authenticate:
+              type: string
+  /users/{id}:
+    get:
+      tags:
+      - Users
+      description: Gets `User` object by id
+      produces:
+      - application/json
+      parameters:
+      - name: id
+        in: path
+        description: ID of the user
+        required: true
+        type: integer
+      responses:
+        "200":
+          description: Success
+          schema:
+            $ref: '#/definitions/User'
+        "401":
+          description: API key is missing or invalid
+          headers:
+            WWW_Authenticate:
+              type: string
+        "404":
+          description: Not found
+    delete:
+      tags:
+      - Users
+      description: Delete an `User` object
+      produces:
+      - application/json
+      parameters:
+      - name: id
+        in: path
+        description: ID of an User
+        required: true
+        type: integer
+      responses:
+        "200":
+          description: Success
+        "401":
+          description: API key is missing or invalid
+          headers:
+            WWW_Authenticate:
+              type: string
+        "404":
+          description: Not found
+securityDefinitions:
+  APIKeyHeader:
+    type: apiKey
+    name: X-API-Key
+    in: header
+definitions:
+  User:
+    type: object
+    properties:
+      id:
+        type: integer
+      name:
+        type: string
+      email:
+        type: string
+      created_at:
+        type: string
+        format: date
+      updated_at:
+        type: string
+        format: date
+  Micropost:
+    type: object
+    properties:
+      id:
+        type: integer
+      user_id:
+        type: integer
+      created_at:
+        type: string
+        format: date
+      updated_at:
+        type: string
+        format: date
+      title:
+        type: string
+      description:
+        type: string
+      priority:
+        type: string
+      type_issue:
+        type: string
+      assignee_id:
+        type: integer
+      status:
+        type: string
+      votes:
+        type: integer
+      watchers:
+        type: integer
+  Comment:
+    type: object
+    properties:
+      body:
+        type: string
+      created_at:
+        type: string
+        format: date
+      updated_at:
+        type: string
+        format: date
+      user_id:
+        type: integer
+  inline_response_200:
+    type: object
+    properties:
+      message:
+        example: success
+  inline_response_403:
+    type: object
+    properties:
+      error:
+        example: Forbidden, you are not the creator of this comment
+responses:
+  UnauthorizedError:
+    description: API key is missing or invalid
+    headers:
+      WWW_Authenticate:
+        type: string
