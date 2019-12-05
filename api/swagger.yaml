@@ -7,6 +7,7 @@ info:
 host: still-ridge-83597.herokuapp.com
 schemes:
 - https
+# X-API-Key: c00faa986a0fc036b871395e83f16f31 (Albert)
 security:
 - APIKeyHeader: []
 paths:
@@ -182,31 +183,17 @@ paths:
       - name: title
         in: formData
         description: Title for the issue
-        required: true
+        required: false
         type: string
       - name: description
         in: formData
         description: Description for the issue
         required: false
         type: string
-      - name: status
-        in: formData
-        description: Status for the issue
-        required: true
-        type: string
-        enum:
-        - New
-        - Open
-        - On hold
-        - Resolved
-        - Duplicate
-        - Invalid
-        - Won't fix
-        - Closed
       - name: priority
         in: formData
         description: Priority of the issue
-        required: true
+        required: false
         type: string
         enum:
         - trivial
@@ -217,7 +204,7 @@ paths:
       - name: type_issue
         in: formData
         description: Type of the issue
-        required: true
+        required: false
         type: string
         enum:
         - bug
@@ -590,7 +577,6 @@ paths:
         "404":
           description: Not found
 securityDefinitions:
-# X-API-Key: c00faa986a0fc036b871395e83f16f31 (Albert)
   APIKeyHeader:
     type: apiKey
     name: X-API-Key
