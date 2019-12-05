@@ -590,6 +590,7 @@ paths:
         "404":
           description: Not found
 securityDefinitions:
+# X-API-Key: c00faa986a0fc036b871395e83f16f31 (Albert)
   APIKeyHeader:
     type: apiKey
     name: X-API-Key
