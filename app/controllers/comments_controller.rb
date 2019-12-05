@@ -77,7 +77,7 @@ class CommentsController < ApplicationController
         end
       end
     else
-      if (comment_params[:user_id] == @comment.user_id)
+      if (@comment.user_id == params[:user_id])
         @comment.destroy
       end
       respond_to do |format|
@@ -95,6 +95,6 @@ class CommentsController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def comment_params
-      params.require(:comment).permit(:body, :user_id)
+      params.require(:comment).permit(:body)
     end
 end
