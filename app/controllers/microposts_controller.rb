@@ -77,6 +77,8 @@ class MicropostsController < ApplicationController
         @watcher = Watcher.new
         if (logged_in?)
           @watcher.user_id = current_user.id
+        else
+          @watcher.user_id = @micropost.user_id
         end
         @watcher.micropost_id = @micropost.id
         @watcher.save
